@@ -1,0 +1,11 @@
+python311/
+mingit/
+mingit.zip
+python311.zip
+get-pip.py
+__pycache__/
+*.pyc
+explore_dataset.py
+analysis_output/*.jsonl
+analysis_output/*.parquet
+analysis_output/*.graphml
