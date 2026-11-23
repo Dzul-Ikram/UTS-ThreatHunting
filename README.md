@@ -16,10 +16,10 @@ Insiden utama berpusat pada **`25512200-01d5-11ee-8c41-374f8f3a6a1c` (Defiant Pi
 ---
 
 ## 📂 Struktur Berkas Investigasi
-- **[`index.html`](file:///d:/threat%20hunting/index.html):** Dashboard interaktif berbasis Tailwind CSS & Chart.js untuk visualisasi timeline, matriks MITRE ATT&CK, dan kueri analitik (di-host pada GitHub Pages).
-- **[`Laporan_Threat_Hunting_Ujian.pdf`](file:///d:/threat%20hunting/Laporan_Threat_Hunting_Ujian.pdf):** Laporan resmi format PDF berstandar akademik siap kumpul.
-- **[`Threat_Hunting_Investigation.ipynb`](file:///d:/threat%20hunting/Threat_Hunting_Investigation.ipynb):** Jupyter Notebook yang dapat dijalankan ulang (*reproducible code*) untuk ekstraksi data, korelasi, dan pengujian kueri.
-- **[`generate_report_pdf.py`](file:///d:/threat%20hunting/generate_report_pdf.py):** Skrip generator PDF menggunakan pustaka ReportLab.
+- **[`Laporan_Threat_Hunting_Ujian.pdf`](Laporan_Threat_Hunting_Ujian.pdf):** Laporan resmi format PDF berstandar akademik (7 halaman, cover resmi Amikom).
+- **[`Threat_Hunting_Investigation.ipynb`](Threat_Hunting_Investigation.ipynb):** Jupyter Notebook yang dapat dijalankan ulang (*reproducible code*) untuk ekstraksi data, korelasi, visualisasi, dan pengujian kueri.
+- **[`campaign_telemetry.json`](campaign_telemetry.json):** Dataset telemetri kampanye Partisi 233678 (Tenant ORG-0003).
+- **[`generate_report_pdf.py`](generate_report_pdf.py):** Skrip generator laporan PDF menggunakan ReportLab.
 
 ---
 
