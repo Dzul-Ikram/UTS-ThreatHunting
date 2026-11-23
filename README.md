@@ -24,7 +24,7 @@ Insiden utama berpusat pada **`25512200-01d5-11ee-8c41-374f8f3a6a1c` (Defiant Pi
 
 ---
 
-## 🎯 Jawaban Lengkap Soal Ujian (Soal 1 s/d 6)
+##  Jawaban Soal Ujian (Soal 1 s/d 6)
 
 ### 1. Analisis Landscape & Attack Lifecycle
 - **Threat Actor:** *Financially Motivated Cybercrime Group / Initial Access Broker (IAB)*. Sindikat kejahatan siber terorganisir yang berfokus pada pencurian data korporat dan kompromi infrastruktur web.
