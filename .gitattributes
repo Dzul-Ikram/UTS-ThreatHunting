@@ -1,2 +1,9 @@
+# Exclude HTML from GitHub Language Statistics
+*.html -linguist-detectable
 *.html linguist-detectable=false
+*.html linguist-vendored=true
 *.html linguist-documentation=true
+
+# Explicitly detect Python and Jupyter Notebook
+*.py linguist-detectable=true
+*.ipynb linguist-detectable=true

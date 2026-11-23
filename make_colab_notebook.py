@@ -1,3 +1,10 @@
+"""
+Colab Notebook Generator for Threat Hunting & Cyber Threat Intelligence (THCTI)
+Author: Dzul Ikram A.S. Sambaiyang (24.83.1130)
+Dataset: WitFoo Precinct 6 Enterprise SOC Telemetry (Campaign Partition 233678)
+Institution: Universitas Amikom Yogyakarta
+"""
+
 import json
 import os
 
