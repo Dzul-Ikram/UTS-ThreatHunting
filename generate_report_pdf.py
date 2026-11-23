@@ -567,24 +567,33 @@ def generate_academic_pdf():
     story.append(PageBreak())
 
     # =========================================================================
-    # HALAMAN 7: SOAL 6 (LAPORAN SINGKAT, REKOMENDASI DETEKSI & BUKTI DEMO)
+    # HALAMAN 7: SOAL 6 (LAPORAN THREAT HUNTING SINGKAT)
     # =========================================================================
     story.append(Paragraph("<b>6. Laporan Threat Hunting Singkat & Rekomendasi Tindak Lanjut</b>", sec_title_style))
-    story.append(HRFlowable(width="100%", thickness=0.8, color=colors.HexColor("#334155"), spaceAfter=8))
+    story.append(HRFlowable(width="100%", thickness=0.8, color=colors.HexColor("#334155"), spaceAfter=5))
 
-    exec_summary_short = (
-        "<b>A. Ringkasan Eksekutif & Temuan Utama:</b><br/>"
-        "• <b>Executive Summary:</b> Perburuan ancaman pada telemetri tenant ORG-0003 mengungkap kampanye terkoordinasi "
-        "<b>Data Theft (Partisi 233678)</b> dengan insiden kunci <b>Defiant Pike 233678 (Skor 0.859)</b>. Workstation resepsionis "
-        "nirkabel 192.168.96.104 terkompromi dan mengeksekusi C2 beaconing keluar ke 100.64.43.120:443.<br/>"
-        "• <b>Metodologi:</b> Hypothesis-Based Threat Hunting memadukan EDR (FireEye HX), NDR (Cisco Stealthwatch), dan Firewall (Cisco Meraki WAP).<br/>"
-        "• <b>Tingkat Keyakinan (Confidence Level):</b> <b>HIGH</b> untuk keterjadian infeksi host dan upaya C2; <b>MEDIUM</b> untuk atribusi pelaku.<br/>"
-        "• <b>Dampak Potensial:</b> Ancaman eksfiltrasi data sensitif korporat dan kompromi lateral ke seluruh segmen cabang enterprise."
+    soal6_body = (
+        "<b>A. Executive Summary & Metodologi:</b><br/>"
+        "• <b>Executive Summary:</b> Investigasi threat hunting pada telemetri tenant <b>ORG-0003</b> mengungkap kampanye terkoordinasi "
+        "<b>Data Theft (Partisi 233678)</b> dengan insiden utama <b>Defiant Pike 233678 (Skor 0.859)</b>. Workstation internal "
+        "resepsionis nirkabel <b>192.168.96.104</b> terkompromi dan mengeksekusi C2 beaconing keluar ke IP eksternal <b>100.64.43.120:443</b>.<br/>"
+        "• <b>Metodologi:</b> Menerapkan <i>Hypothesis-Based Threat Hunting</i> yang dipadukan dengan <i>Diamond Model for Intrusion Analysis</i> "
+        "dan <i>MITRE ATT&CK Framework</i>, mengorelasikan telemetri EDR (FireEye HX), NDR (Cisco Stealthwatch), dan Firewall (Cisco Meraki WAP).<br/><br/>"
+        "<b>B. Temuan Utama & Evidence Pendukung:</b><br/>"
+        "• <b>Temuan Utama:</b> Upaya eksfiltrasi data korporat via HTTPS port 443 yang terjadi bersamaan dengan pemindaian lateral di cabang Loxley, Atlanta, Conyers, dan Northbrook.<br/>"
+        "• <b>Evidence Pendukung:</b><br/>"
+        "&nbsp;&nbsp;1. Log EDR: <i>FireEye HX Domain Match</i> pada host 192.168.96.104 (2023-06-02 21:19:28 UTC).<br/>"
+        "&nbsp;&nbsp;2. Log NDR: <i>Cisco Stealthwatch High Concern Index Alarm</i> (Concern Score: 0.859 / 85.9%).<br/>"
+        "&nbsp;&nbsp;3. Log Perimeter: <i>Cisco Meraki WAP (NORHQ_WAP_RECEPTION)</i> memutus transmisi keluar (action: deny).<br/>"
+        "&nbsp;&nbsp;4. Log Lateral Probe: <i>Stealthwatch Loxley</i> mendeteksi 29 leads pemindaian ke 15 node pada port 13731.<br/><br/>"
+        "<b>C. Tingkat Keyakinan (Confidence Level) & Dampak Potensial:</b><br/>"
+        "• <b>Confidence Level:</b> <b>HIGH (Tinggi)</b> untuk keterjadian infeksi host dan aktivitas C2 beaconing (tervalidasi 3 sensor independen); <b>MEDIUM</b> untuk atribusi kelompok pelaku (adanya sanitasi IP RFC 6598 & enkripsi TLS 1.3).<br/>"
+        "• <b>Dampak Potensial:</b> Risiko eksfiltrasi data rahasia korporat, kompromi jaringan cabang nirkabel, dan penanaman backdoor sekunder."
     )
-    story.append(Paragraph(exec_summary_short, body_style))
-    story.append(Spacer(1, 4))
+    story.append(Paragraph(soal6_body, body_style))
+    story.append(Spacer(1, 3))
 
-    story.append(Paragraph("<b>B. Matriks Prioritas Tindak Lanjut (Action Plan):</b>", subsec_title_style))
+    story.append(Paragraph("<b>D. Rekomendasi Deteksi & Prioritas Tindak Lanjut:</b>", subsec_title_style))
     rec_table_data = [
         [Paragraph("Tingkat Prioritas", th_style), Paragraph("Tindakan Remediasi & Rekomendasi Deteksi", th_style), Paragraph("Penanggung Jawab & Target Waktu", th_style)],
         [
@@ -607,21 +616,20 @@ def generate_academic_pdf():
     t_rec.setStyle(TableStyle([
         ('BACKGROUND', (0,0), (-1,0), colors.HexColor("#f1f5f9")),
         ('GRID', (0,0), (-1,-1), 0.5, colors.HexColor("#94a3b8")),
-        ('TOPPADDING', (0,0), (-1,-1), 3),
-        ('BOTTOMPADDING', (0,0), (-1,-1), 3),
+        ('TOPPADDING', (0,0), (-1,-1), 2.5),
+        ('BOTTOMPADDING', (0,0), (-1,-1), 2.5),
         ('LEFTPADDING', (0,0), (-1,-1), 4),
         ('RIGHTPADDING', (0,0), (-1,-1), 4),
     ]))
     story.append(t_rec)
-    story.append(Spacer(1, 6))
+    story.append(Spacer(1, 4))
 
     demo_text = (
-        "<b>C. Tautan Demo & Bukti Reproduktibilitas Analisis:</b><br/>"
-        "• <b>Google Colab Demo:</b> <a href='https://colab.research.google.com/drive/1ys4l468E6lEuRepVZIOlKEUzR-kNK1LJ'>https://colab.research.google.com/drive/1ys4l468E6lEuRepVZIOlKEUzR-kNK1LJ</a><br/>"
-        "• <b>Repository GitHub:</b> <a href='https://github.com/Dzul-Ikram/UTS-ThreatHunting'>https://github.com/Dzul-Ikram/UTS-ThreatHunting</a><br/>"
-        "• <b>Live Interactive Dashboard (GitHub Pages):</b> <a href='https://dzul-ikram.github.io/UTS-ThreatHunting/'>https://dzul-ikram.github.io/UTS-ThreatHunting/</a><br/>"
-        "• <b>Jupyter Notebook Reproduksi:</b> <font face='Courier'>Threat_Hunting_Investigation.ipynb</font> (tersedia di repository untuk verifikasi kueri dan ekstraksi data secara langsung).<br/>"
-        "<i>Seluruh proses pencarian, korelasi multi-sumber, penyusunan timeline, dan dasar pengambilan keputusan analisis dapat diakses dan diverifikasi secara langsung melalui tautan di atas.</i>"
+        "<b>E. Lampiran Link Demo (Sesuai Ketentuan Soal):</b><br/>"
+        "• <b>Google Colab Notebook:</b> <a href='https://colab.research.google.com/drive/1ys4l468E6lEuRepVZIOlKEUzR-kNK1LJ'>https://colab.research.google.com/drive/1ys4l468E6lEuRepVZIOlKEUzR-kNK1LJ</a><br/>"
+        "• <b>Repository GitHub (Dapat Dijalankan Ulang):</b> <a href='https://github.com/Dzul-Ikram/UTS-ThreatHunting'>https://github.com/Dzul-Ikram/UTS-ThreatHunting</a><br/>"
+        "• <b>Jupyter Notebook File:</b> <font face='Courier'>Threat_Hunting_Investigation.ipynb</font> (tersedia di dalam repository GitHub).<br/>"
+        "<i>Demo di atas secara transparan memperlihatkan proses kueri event, korelasi multi-sumber telemetri EDR/NDR/Firewall, penyusunan evidence timeline kronologis, dan dasar pengambilan keputusan analisis.</i>"
     )
     story.append(Paragraph(demo_text, body_style))
 

@@ -3,7 +3,6 @@
 **Institusi:** Program Studi S1 Teknik Komputer, Fakultas Ilmu Komputer, Universitas Amikom Yogyakarta  
 **Peneliti:** Dzul-Ikram  
 **Repository GitHub:** [https://github.com/Dzul-Ikram/UTS-ThreatHunting](https://github.com/Dzul-Ikram/UTS-ThreatHunting)  
-**Live Web Dashboard (GitHub Pages):** [https://dzul-ikram.github.io/UTS-ThreatHunting/](https://dzul-ikram.github.io/UTS-ThreatHunting/)  
 **Google Colab Notebook:** [https://colab.research.google.com/drive/1ys4l468E6lEuRepVZIOlKEUzR-kNK1LJ](https://colab.research.google.com/drive/1ys4l468E6lEuRepVZIOlKEUzR-kNK1LJ)  
 **Dataset Source:** [witfoo/precinct6-cybersecurity](https://huggingface.co/datasets/witfoo/precinct6-cybersecurity)
 
@@ -170,8 +169,20 @@ HAVING COUNT(DISTINCT dst_ip) >= 5;
 
 ---
 
-### 6. Rekomendasi Deteksi, Prioritas Tindak Lanjut & Demo
+### 6. Laporan Threat Hunting Singkat & Rekomendasi Tindak Lanjut
 
+- **Executive Summary:** Berdasarkan investigasi telemetri tenant **ORG-0003**, diidentifikasi kampanye **Data Theft (Partisi 233678)** yang berpusat pada insiden kunci **Defiant Pike 233678 (Skor 0.859)**. Workstation resepsionis nirkabel `192.168.96.104` terkompromi dan mengeksekusi C2 beaconing keluar ke IP eksternal `100.64.43.120:443`.
+- **Metodologi:** Menerapkan kerangka kerja *Hypothesis-Based Threat Hunting* yang dipadukan dengan *Diamond Model for Intrusion Analysis* dan *MITRE ATT&CK Framework*, mengorelasikan data EDR (FireEye HX), NDR (Cisco Stealthwatch), dan Firewall (Cisco Meraki WAP).
+- **Temuan Utama:** Upaya transmisi data korporat via HTTPS port 443 yang terjadi bersamaan dengan pemindaian lateral di cabang Loxley, Atlanta, Conyers, dan Northbrook.
+- **Evidence Pendukung:**
+  1. Log EDR: *FireEye HX Domain Match* pada host `192.168.96.104` (2023-06-02 21:19:28 UTC).
+  2. Log NDR: *Cisco Stealthwatch High Concern Index Alarm* (Concern Score: 0.859 / 85.9%).
+  3. Log Perimeter: *Cisco Meraki WAP (NORHQ_WAP_RECEPTION)* memutus transmisi keluar (*action: deny*).
+  4. Log Lateral Probe: *Cisco Stealthwatch Loxley* mendeteksi 29 leads pemindaian ke 15 node pada port anomali 13731.
+- **Tingkat Keyakinan (Confidence Level):** **HIGH (Tinggi)** untuk keterjadian infeksi host dan aktivitas C2 beaconing (tervalidasi 3 sensor independen); **MEDIUM** untuk atribusi kelompok pelaku spesifik (karena sanitasi IP RFC 6598 dan enkripsi TLS 1.3).
+- **Dampak Potensial:** Ancaman eksfiltrasi data rahasia korporat (Data Theft), kompromi segmen jaringan cabang enterprise, dan potensi penanaman backdoor sekunder.
+
+#### Matriks Prioritas Tindak Lanjut:
 | Prioritas Tindak Lanjut | Tindakan Remediasi & Rekomendasi Deteksi | Penanggung Jawab & Target Waktu |
 | :--- | :--- | :--- |
 | **Prioritas 1 (Immediate / Kritis)** | 1. Karantina jaringan logis terhadap host `192.168.96.104`.<br/>2. Blokir IP `100.64.43.120` pada seluruh perimeter firewall dan sinkhole DNS.<br/>3. Reset seluruh kredensial akun yang pernah aktif pada workstation terinfeksi. | Tim SOC / Incident Response<br/>**Target: 0 s/d 24 Jam** |
@@ -180,10 +191,8 @@ HAVING COUNT(DISTINCT dst_ip) >= 5;
 
 ---
 
-## 🔗 Tautan Demo & Verifikasi
-- **Google Colab Notebook:** [https://colab.research.google.com/drive/1ys4l468E6lEuRepVZIOlKEUzR-kNK1LJ](https://colab.research.google.com/drive/1ys4l468E6lEuRepVZIOlKEUzR-kNK1LJ)  
-  *(Alternatif 1-Click Run langsung dari GitHub: [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Dzul-Ikram/UTS-ThreatHunting/blob/main/Threat_Hunting_Investigation.ipynb))*
-- **Repository GitHub:** [https://github.com/Dzul-Ikram/UTS-ThreatHunting](https://github.com/Dzul-Ikram/UTS-ThreatHunting)
-- **Live Web Dashboard (GitHub Pages):** [https://dzul-ikram.github.io/UTS-ThreatHunting/](https://dzul-ikram.github.io/UTS-ThreatHunting/)
+## 🔗 Tautan Demo & Bukti Reproduktibilitas (Sesuai Soal Ujian)
+- **Google Colab Notebook:** [https://colab.research.google.com/drive/1ys4l468E6lEuRepVZIOlKEUzR-kNK1LJ](https://colab.research.google.com/drive/1ys4l468E6lEuRepVZIOlKEUzR-kNK1LJ)
+- **Repository GitHub (Dapat Dijalankan Ulang):** [https://github.com/Dzul-Ikram/UTS-ThreatHunting](https://github.com/Dzul-Ikram/UTS-ThreatHunting)
 - **Jupyter Notebook Reproduksi:** [`Threat_Hunting_Investigation.ipynb`](Threat_Hunting_Investigation.ipynb)
 - **Unduh Laporan PDF:** [`Laporan_Threat_Hunting_Ujian.pdf`](Laporan_Threat_Hunting_Ujian.pdf)
