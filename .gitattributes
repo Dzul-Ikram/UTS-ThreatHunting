@@ -7,3 +7,7 @@
 # Explicitly detect Python and Jupyter Notebook
 *.py linguist-detectable=true
 *.ipynb linguist-detectable=true
+
+# Binary assets
+*.pdf binary
+*.png binary

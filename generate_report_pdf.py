@@ -445,7 +445,7 @@ def generate_academic_pdf():
     # =========================================================================
     # HALAMAN 5: SOAL 4 (KLASIFIKASI TEMUAN & PEMETAAN MITRE ATT&CK)
     # =========================================================================
-    story.append(Paragraph("<b>4. Klasifikasi Temuan & Pemetaan MITRE ATT&CK</b>", sec_title_style))
+    story.append(Paragraph("<b>4. Klasifikasi Temuan &amp; Pemetaan MITRE ATT&amp;CK</b>", sec_title_style))
     story.append(HRFlowable(width="100%", thickness=0.8, color=colors.HexColor("#334155"), spaceAfter=8))
     
     ioc_text = (
