@@ -2,6 +2,7 @@
 **Studi Kasus:** WitFoo Precinct 6 Enterprise SOC Telemetry (Coordinated Campaign 233678)  
 **Institusi:** Program Studi S1 Teknik Komputer, Fakultas Ilmu Komputer, Universitas Amikom Yogyakarta  
 **Peneliti:** Dzul Ikram A.S. Sambaiyang
+
 **Repository GitHub:** [https://github.com/Dzul-Ikram/UTS-ThreatHunting](https://github.com/Dzul-Ikram/UTS-ThreatHunting)  
 **Google Colab Notebook:** [https://colab.research.google.com/drive/1ys4l468E6lEuRepVZIOlKEUzR-kNK1LJ](https://colab.research.google.com/drive/1ys4l468E6lEuRepVZIOlKEUzR-kNK1LJ)  
 **Dataset Source:** [witfoo/precinct6-cybersecurity](https://huggingface.co/datasets/witfoo/precinct6-cybersecurity)
