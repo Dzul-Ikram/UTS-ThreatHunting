@@ -352,10 +352,18 @@ def generate_academic_pdf():
     soal3_intro = (
         "Identifikasi dan korelasi telemetri dilakukan menggunakan minimal dua sumber data independen yang saling memvalidasi: "
         "<b>FireEye Endpoint Security (HX Series)</b> sebagai sumber EDR dan <b>Cisco Stealthwatch</b> sebagai sumber NDR, "
-        "didukung sensor perimeter <b>Cisco Meraki WAP (NORHQ_WAP_RECEPTION)</b>. Berikut adalah kronologi kejadian hasil korelasi:"
+        "didukung sensor perimeter <b>Cisco Meraki WAP (NORHQ_WAP_RECEPTION)</b>. Berikut visualisasi sebaran tingkat kecurigaan, sensor forensik, dan kronologi kejadian hasil korelasi:"
     )
     story.append(Paragraph(soal3_intro, body_style))
-    story.append(Spacer(1, 4))
+    story.append(Spacer(1, 3))
+
+    # Diagram Visualisasi Sebaran Skor Kecurigaan & Sensor Multi-Sumber (Permintaan Soal)
+    chart_path = os.path.join(os.path.dirname(__file__), "campaign_charts.png")
+    if os.path.exists(chart_path):
+        chart_img = Image(chart_path, width=490, height=155)
+        chart_img.hAlign = 'CENTER'
+        story.append(chart_img)
+        story.append(Spacer(1, 4))
 
     # Tabel Timeline (Lebar total: 504 pt)
     timeline_table_data = [
@@ -413,13 +421,13 @@ def generate_academic_pdf():
     t_timeline.setStyle(TableStyle([
         ('BACKGROUND', (0,0), (-1,0), colors.HexColor("#f1f5f9")),
         ('GRID', (0,0), (-1,-1), 0.5, colors.HexColor("#94a3b8")),
-        ('TOPPADDING', (0,0), (-1,-1), 3),
-        ('BOTTOMPADDING', (0,0), (-1,-1), 3),
-        ('LEFTPADDING', (0,0), (-1,-1), 4),
-        ('RIGHTPADDING', (0,0), (-1,-1), 4),
+        ('TOPPADDING', (0,0), (-1,-1), 2),
+        ('BOTTOMPADDING', (0,0), (-1,-1), 2),
+        ('LEFTPADDING', (0,0), (-1,-1), 3),
+        ('RIGHTPADDING', (0,0), (-1,-1), 3),
     ]))
     story.append(t_timeline)
-    story.append(Spacer(1, 8))
+    story.append(Spacer(1, 5))
 
     soal3_analysis = (
         "<b>Sintesis Korelasi Forensik Multi-Sumber:</b><br/>"

@@ -9,3 +9,4 @@ explore_dataset.py
 analysis_output/*.jsonl
 analysis_output/*.parquet
 analysis_output/*.graphml
+.matplotlib_cache/
