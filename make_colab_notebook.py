@@ -1,0 +1,592 @@
+import json
+import os
+
+notebook_cells = [
+    {
+        "cell_type": "markdown",
+        "metadata": {},
+        "source": [
+            "# UJIAN TENGAH SEMESTER (UTS) - THREAT HUNTING & CYBER THREAT INTELLIGENCE\n",
+            "## Program Studi S1 Teknik Komputer | Fakultas Ilmu Komputer | Universitas Amikom Yogyakarta\n",
+            "\n",
+            "**Nama Mahasiswa:** Dzul Ikram A.S. Sambaiyang  \n",
+            "**NIM:** 24.83.1130  \n",
+            "**Email Amikom:** ikram.sambaiyang19@students.amikom.ac.id  \n",
+            "**Mata Kuliah:** Threat Hunting & Cyber Threat Intelligence (THCTI)  \n",
+            "**Dataset Telemetri:** [witfoo/precinct6-cybersecurity](https://huggingface.co/datasets/witfoo/precinct6-cybersecurity)  \n",
+            "**Repository GitHub:** [https://github.com/Dzul-Ikram/UTS-ThreatHunting](https://github.com/Dzul-Ikram/UTS-ThreatHunting)  \n",
+            "**Google Colab Notebook:** [https://colab.research.google.com/drive/1ys4l468E6lEuRepVZIOlKEUzR-kNK1LJ](https://colab.research.google.com/drive/1ys4l468E6lEuRepVZIOlKEUzR-kNK1LJ)  \n",
+            "**Live Interactive Dashboard:** [https://dzul-ikram.github.io/UTS-ThreatHunting/](https://dzul-ikram.github.io/UTS-ThreatHunting/)  \n",
+            "\n",
+            "---\n",
+            "### Deskripsi Kasus & Metodologi Investigasi\n",
+            "Notebook ini menyajikan implementasi **Hypothesis-Based Threat Hunting** berbasis data telemetri riil Security Operations Center (SOC) enterprise dari dataset **WitFoo Precinct 6** (2.250.185 sinyal, 51.371 insiden). Investigasi difokuskan pada kampanye serangan terorganisir **Data Theft (Partisi 233678)** pada tenant **ORG-0003**, dengan insiden kunci **`25512200-01d5-11ee-8c41-374f8f3a6a1c` (Defiant Pike 233678)** yang memicu skor kecurigaan tertinggi (**0.859 / 85.9%**).\n",
+            "\n",
+            "Investigasi ini disusun untuk memenuhi secara komprehensif seluruh rubrik penilaian ujian (Total: 100 Poin):\n",
+            "1. **Analisis Landscape & Threat Actor (Bobot: 15 Poin)**\n",
+            "2. **Hipotesis dan Metodologi Hunting (Bobot: 15 Poin)**\n",
+            "3. **Telemetry Correlation & Evidence Timeline (Bobot: 20 Poin)**\n",
+            "4. **Klasifikasi IOC, IOA, TTP & Pemetaan MITRE ATT&CK (Bobot: 20 Poin)**\n",
+            "5. **Hunting Query dan Detection Engineering (Bobot: 20 Poin)**\n",
+            "6. **Hunting Report dan Link Demo (Bobot: 10 Poin)**"
+        ]
+    },
+    {
+        "cell_type": "markdown",
+        "metadata": {},
+        "source": [
+            "## 0. Inisialisasi Environment & Pemuatan Data Telemetri Forensik\n",
+            "Sel ini secara otomatis memverifikasi environment (Google Colab atau sistem lokal) dan mengunduh berkas telemetri kampanye (`campaign_telemetry.json`) langsung dari repositori GitHub."
+        ]
+    },
+    {
+        "cell_type": "code",
+        "execution_count": None,
+        "metadata": {},
+        "outputs": [],
+        "source": [
+            "import os\n",
+            "import sys\n",
+            "import json\n",
+            "import urllib.request\n",
+            "from datetime import datetime, timezone\n",
+            "\n",
+            "try:\n",
+            "    import pandas as pd\n",
+            "except ImportError:\n",
+            "    pd = None\n",
+            "\n",
+            "try:\n",
+            "    import matplotlib.pyplot as plt\n",
+            "    HAS_MATPLOTLIB = True\n",
+            "except ImportError:\n",
+            "    HAS_MATPLOTLIB = False\n",
+            "\n",
+            "try:\n",
+            "    from IPython.display import display\n",
+            "except ImportError:\n",
+            "    display = print\n",
+            "\n",
+            "# Tentukan sumber data telemetri kampanye\n",
+            "DATA_FILE = 'campaign_telemetry.json'\n",
+            "GITHUB_RAW_URL = 'https://raw.githubusercontent.com/Dzul-Ikram/UTS-ThreatHunting/main/campaign_telemetry.json'\n",
+            "\n",
+            "if not os.path.exists(DATA_FILE):\n",
+            "    print(f\"Mengunduh {DATA_FILE} dari repositori GitHub...\")\n",
+            "    try:\n",
+            "        urllib.request.urlretrieve(GITHUB_RAW_URL, DATA_FILE)\n",
+            "        print(\"Unduhan dataset forensik berhasil!\")\n",
+            "    except Exception as e:\n",
+            "        print(f\"Gagal mengunduh: {e}\")\n",
+            "else:\n",
+            "    print(f\"Berkas lokal {DATA_FILE} terdeteksi.\")\n",
+            "\n",
+            "# Load dataset telemetri kampanye Partisi 233678\n",
+            "with open(DATA_FILE, 'r', encoding='utf-8') as f:\n",
+            "    campaign_incidents = json.load(f)\n",
+            "\n",
+            "print(f\"[STATUS] Berhasil memuat {len(campaign_incidents)} insiden terkoordinasi dalam Kampanye Partisi 233678.\")"
+        ]
+    },
+    {
+        "cell_type": "markdown",
+        "metadata": {},
+        "source": [
+            "## 1. Analisis Landscape & Attack Lifecycle (Soal 1 - Bobot: 15 Poin)\n",
+            "### 1.1 Profiling Threat Actor, Motivasi, Kemampuan, dan Target Aset\n",
+            "Berdasarkan analisis telemetri tenant **ORG-0003**, teridentifikasi aktivitas kelompok kejahatan siber yang menyasar kompromi perimeter nirkabel dan workstation resepsionis untuk upaya eksfiltrasi data korporat."
+        ]
+    },
+    {
+        "cell_type": "code",
+        "execution_count": None,
+        "metadata": {},
+        "outputs": [],
+        "source": [
+            "# Profiling Landscape Ancaman\n",
+            "landscape_profile = {\n",
+            "    \"Komponen\": [\n",
+            "        \"Threat Actor\",\n",
+            "        \"Motivasi\",\n",
+            "        \"Kemampuan (Capability)\",\n",
+            "        \"Target Aset\",\n",
+            "        \"Attack Lifecycle\"\n",
+            "    ],\n",
+            "    \"Karakteristik & Analisis Evidence\": [\n",
+            "        \"Financially Motivated Cybercrime Group / Initial Access Broker (IAB). Karakteristik sindikat kejahatan siber terorganisir yang menyasar kompromi perimeter web dan workstation enterprise untuk pencurian data dan monetisasi akses.\",\n",
+            "        \"Keuntungan finansial (Financial Gain) melalui pencurian data sensitif (Data Theft), penjualan akses ke dark web, dan penguasaan server korban.\",\n",
+            "        \"Tingkat Menengah ke Atas (Capable/Advanced). Mampu melakukan komunikasi C2 terenkripsi (HTTPS port 443), teknik penghindaran firewall port non-standar (13731, 8880, 4112, 4010), dan pemindaian lateral terkoordinasi antar cabang.\",\n",
+            "        \"Aset korporat ORG-0003: Workstation resepsionis 192.168.96.104 di kantor pusat (NORHQ_WAP_RECEPTION) dan switch/gateway cabang Atlanta, Conyers, Loxley, Northbrook.\",\n",
+            "        \"1. Initial Access (T1190) -> 2. Execution (T1059/Web Shell) -> 3. Discovery (T1046) -> 4. Lateral Movement (T1021) -> 5. Exfiltration (T1041/T1567).\"\n",
+            "    ]\n",
+            "}\n",
+            "\n",
+            "df_landscape = pd.DataFrame(landscape_profile)\n",
+            "pd.set_option('display.max_colwidth', None)\n",
+            "display(df_landscape)"
+        ]
+    },
+    {
+        "cell_type": "markdown",
+        "metadata": {},
+        "source": [
+            "### 1.2 Diferensiasi Tegas: Fakta vs Asumsi vs Hipotesis\n",
+            "Pemisahan objektif antara data empiris yang tercatat pada log telemetri, deduksi logis analis, dan proposisi investigasi yang diuji."
+        ]
+    },
+    {
+        "cell_type": "code",
+        "execution_count": None,
+        "metadata": {},
+        "outputs": [],
+        "source": [
+            "# Tabel Diferensiasi Fakta, Asumsi, dan Hipotesis\n",
+            "fha_data = {\n",
+            "    \"Kategori\": [\"FAKTA (Observed Truth)\", \"ASUMSI (Logical Deduction)\", \"HIPOTESIS (Investigative Proposal)\"],\n",
+            "    \"Pernyataan Analisis\": [\n",
+            "        \"Host 192.168.96.104 menginisiasi sesi TCP keluar ke 100.64.43.120:443 pada 2023-06-02 21:19:28 UTC. Sesi koneksi diblokir (action: deny) oleh sensor NORHQ_WAP_RECEPTION. FireEye HX memicu 'FireEye HX Domain Match' dan Stealthwatch memicu 'High Concern Index Alarm'. Terjadi pemindaian port 13731 di cabang Loxley (29 leads, 15 node).\",\n",
+            "        \"IP 100.64.43.120 adalah representasi tersanitasi dari server C2 penyerang (HMAC RFC 6598). Muatan sesi port 443 mengandung data korporat yang telah dikumpulkan oleh malware/web shell.\",\n",
+            "        \"H1: Host resepsionis terinfeksi malware yang mengeksekusi C2 beaconing periodik via HTTPS.\\nH2: Aktivitas port 13731 di cabang Loxley merupakan pemindaian internal lateral reconnaissance sebelum exfiltrasi.\"\n",
+            "    ],\n",
+            "    \"Dasar Bukti / Keterbatasan\": [\n",
+            "        \"Tercatat eksplisit pada 4 triggering leads insiden 25512200 dan log syslog NORHQ_WAP_RECEPTION.\",\n",
+            "        \"Dideduksi dari klasifikasi Modus Operandi 'Data Theft' dan standar sanitasi dataset.\",\n",
+            "        \"Proposisi investigatif yang diuji menggunakan korelasi telemetri EDR, NDR, dan firewall.\"\n",
+            "    ]\n",
+            "}\n",
+            "\n",
+            "df_fha = pd.DataFrame(fha_data)\n",
+            "display(df_fha)"
+        ]
+    },
+    {
+        "cell_type": "markdown",
+        "metadata": {},
+        "source": [
+            "## 2. Perumusan Threat Hunting Hypothesis (Soal 2 - Bobot: 15 Poin)\n",
+            "Perumusan dua hipotesis berbobot tinggi lengkap dengan tujuan investigasi, ruang lingkup host/user/time window, data yang dibutuhkan, langkah penyelidikan, kriteria validasi, dan tindakan lanjutan."
+        ]
+    },
+    {
+        "cell_type": "code",
+        "execution_count": None,
+        "metadata": {},
+        "outputs": [],
+        "source": [
+            "hypotheses_data = {\n",
+            "    \"Parameter\": [\n",
+            "        \"Pernyataan Hipotesis\",\n",
+            "        \"Tujuan Investigasi\",\n",
+            "        \"Ruang Lingkup (Scope)\",\n",
+            "        \"Data yang Dibutuhkan\",\n",
+            "        \"Langkah Penyelidikan\",\n",
+            "        \"Kriteria Validasi\",\n",
+            "        \"Tindakan Lanjutan (Action Plan)\",\n",
+            "        \"Status Validasi\"\n",
+            "    ],\n",
+            "    \"Hipotesis 1 (H1: Outbound C2 Beaconing & Exfiltration)\": [\n",
+            "        \"Terdapat host internal di segmen resepsionis/WAP kantor pusat (NORHQ) yang mengalami kompromi dan secara aktif melakukan komunikasi outbound tidak wajar ke domain C2 berbahaya via protokol HTTPS (port 443) untuk melakukan eksfiltrasi data rahasia.\",\n",
+            "        \"Mendeteksi kanal komunikasi C2 aktif, mengidentifikasi proses inisiator pada sistem operasi host, memvalidasi domain IOC, dan memastikan integritas data korporat.\",\n",
+            "        \"Host: 192.168.96.104 (MAC: 00:A5:54:CB:19:84) | Time Window: 2023-06-02 20:00:00 s/d 23:59:59 UTC.\",\n",
+            "        \"Network Flow Logs (Meraki WAP, Cisco ASA), EDR Process & Domain Match Logs (FireEye HX), Cisco Stealthwatch HCI alarms.\",\n",
+            "        \"1) Filter flow log keluar ke 100.64.43.120:443; 2) Ekstrak nama domain yang memicu FireEye HX Domain Match; 3) Periksa process tree di host; 4) Evaluasi volume transfer byte pada Stealthwatch.\",\n",
+            "        \"SUPPORTED bila terbukti korelasi domain match EDR + alarm lonjakan HCI + deny log firewall. REJECTED bila koneksi terbukti update software resmi vendor. INCONCLUSIVE bila log EDR tidak tersedia.\",\n",
+            "        \"Jika Terbukti: Isolasi host dari jaringan, sinkhole domain C2 pada DNS internal, cabut kredensial aktif, lakukan memory dump triage. Jika Terbantahkan: Lakukan tuning signature EDR.\",\n",
+            "        \"SUPPORTED (Tervalidasi oleh Evidence)\"\n",
+            "    ],\n",
+            "    \"Hipotesis 2 (H2: Multi-Branch Lateral Reconnaissance)\": [\n",
+            "        \"Penyerang memanfaatkan host perantara di jaringan cabang (Loxley/Atlanta/Conyers) untuk melakukan pemindaian horizontal dan probing lateral movement pada port non-standar (13731, 8880, 4112, 4010) secara terkoordinasi.\",\n",
+            "        \"Memetakan penyebaran infeksi lateral antar kantor cabang dan mendeteksi aktivitas pemindaian port (service discovery) sebelum eksfiltrasi dilakukan.\",\n",
+            "        \"Host cabang: 100.64.41.160 (Loxley), 100.64.27.241 (Atlanta) | Time Window: 2023-06-02 18:00:00 s/d 2023-06-03 02:00:00 UTC.\",\n",
+            "        \"Cisco Stealthwatch Flow Logs, Meraki L7 & Firewall deny alarms, Windows Event 5156.\",\n",
+            "        \"1) Ekstraksi event network flow pada port anomali (13731, 8880, 4112, 4010); 2) Hitung jumlah distinct destination IP per host asal; 3) Evaluasi alarm penimbunan data (data hoarding) Stealthwatch.\",\n",
+            "        \"SUPPORTED bila terbukti 1 host memindai >10 target dalam waktu singkat tanpa tujuan bisnis sah. REJECTED bila port terbukti software backup terdistribusi resmi. INCONCLUSIVE bila log flow lokal tidak lengkap.\",\n",
+            "        \"Jika Terbukti: Terapkan microsegmentation antar cabang, blokir port 13731/8880 pada router ACL. Jika Terbantahkan: Daftarkan port aplikasi ke dalam CMDB.\",\n",
+            "        \"SUPPORTED (Tervalidasi oleh Evidence)\"\n",
+            "    ]\n",
+            "}\n",
+            "\n",
+            "df_hypotheses = pd.DataFrame(hypotheses_data)\n",
+            "display(df_hypotheses)"
+        ]
+    },
+    {
+        "cell_type": "markdown",
+        "metadata": {},
+        "source": [
+            "## 3. Telemetry Correlation & Evidence Timeline (Soal 3 - Bobot: 20 Poin)\n",
+            "### 3.1 Identifikasi Sumber Telemetri Forensik\n",
+            "Korelasi dilakukan menggunakan minimal dua sumber data independen yang saling melengkapi:\n",
+            "1. **Endpoint Detection and Response (EDR):** `FireEye Endpoint Security (HX Series)` — mendeteksi kecocokan domain jahat (`FireEye HX Domain Match`) pada sistem operasi host.\n",
+            "2. **Network Detection and Response (NDR):** `Cisco Stealthwatch` — mendeteksi anomali perilaku trafik jaringan (`High Concern Index Alarm` dan akumulasi data host).\n",
+            "3. **Perimeter Network & Wireless Security:** `Cisco Meraki WAP (NORHQ_WAP_RECEPTION)` — mencatat sesi TCP keluar port 64813 -> 443 dengan aksi pemblokiran (*action: deny*)."
+        ]
+    },
+    {
+        "cell_type": "code",
+        "execution_count": None,
+        "metadata": {},
+        "outputs": [],
+        "source": [
+            "# Ekstraksi seluruh lead event dari insiden kampanye untuk menyusun Evidence Timeline Kronologis\n",
+            "timeline_records = []\n",
+            "\n",
+            "for inc in campaign_incidents:\n",
+            "    for l in inc.get('leads', []):\n",
+            "        ts = l.get('observed_at')\n",
+            "        ts_utc = datetime.fromtimestamp(ts, tz=timezone.utc).strftime('%Y-%m-%d %H:%M:%S UTC') if ts else 'N/A'\n",
+            "        src = f\"{l.get('clientip')}:{l.get('clientport')}\"\n",
+            "        dst = f\"{l.get('serverip')}:{l.get('serverport')}\"\n",
+            "        timeline_records.append({\n",
+            "            \"Timestamp (UTC)\": ts_utc,\n",
+            "            \"Epoch\": ts,\n",
+            "            \"Source Entity\": src,\n",
+            "            \"Destination Entity\": dst,\n",
+            "            \"Activity / Protocol\": f\"{str(l.get('protocol', '')).upper()} ({str(l.get('action', '')).upper()})\",\n",
+            "            \"Detection Rule / Lead\": l.get('description'),\n",
+            "            \"Sensor Source\": l.get('product')\n",
+            "        })\n",
+            "\n",
+            "df_timeline_all = pd.DataFrame(timeline_records)\n",
+            "df_timeline_all = df_timeline_all.sort_values(by='Epoch').drop_duplicates(subset=['Epoch', 'Source Entity', 'Destination Entity', 'Detection Rule / Lead'])\n",
+            "\n",
+            "print(f\"Total chronological evidence events extracted: {len(df_timeline_all)}\")\n",
+            "display(df_timeline_all[['Timestamp (UTC)', 'Source Entity', 'Destination Entity', 'Activity / Protocol', 'Detection Rule / Lead', 'Sensor Source']])"
+        ]
+    },
+    {
+        "cell_type": "code",
+        "execution_count": None,
+        "metadata": {},
+        "outputs": [],
+        "source": [
+            "# Visualisasi Sebaran Skor Kecurigaan dan Sensor Multi-Sumber Kampanye\n",
+            "if HAS_MATPLOTLIB:\n",
+            "    fig, axes = plt.subplots(1, 2, figsize=(14, 5))\n",
+            "    inc_names = [i.get('name') for i in campaign_incidents]\n",
+            "    inc_scores = [i.get('suspicion_score', 0) for i in campaign_incidents]\n",
+            "    axes[0].barh(inc_names, inc_scores, color='#1e3a8a')\n",
+            "    axes[0].set_xlabel('Suspicion Score (0.0 - 1.0)')\n",
+            "    axes[0].set_title('Tingkat Kecurigaan Insiden dalam Kampanye 233678 (Tenant ORG-0003)')\n",
+            "    axes[0].set_xlim(0, 1.0)\n",
+            "    axes[0].grid(axis='x', linestyle='--', alpha=0.5)\n",
+            "    sensor_counts = df_timeline_all['Sensor Source'].value_counts() if pd is not None else {}\n",
+            "    if len(sensor_counts) > 0:\n",
+            "        axes[1].pie(sensor_counts, labels=sensor_counts.index, autopct='%1.1f%%', colors=['#1e3a8a', '#0284c7', '#0d9488', '#d97706'])\n",
+            "        axes[1].set_title('Distribusi Sumber Telemetri Forensik (Multi-Sensor)')\n",
+            "    plt.tight_layout()\n",
+            "    plt.show()\n",
+            "else:\n",
+            "    print('Matplotlib tidak terpasang di runtime ini. Menampilkan ringkasan teks:')\n",
+            "    for i in campaign_incidents:\n",
+            "        print(f\"- {i.get('name')}: Skor {i.get('suspicion_score')}\")\n"
+        ]
+    },
+    {
+        "cell_type": "markdown",
+        "metadata": {},
+        "source": [
+            "## 4. Klasifikasi IOC, IOA, TTP & Pemetaan MITRE ATT&CK (Soal 4 - Bobot: 20 Poin)\n",
+            "### 4.1 Klasifikasi Temuan: IOC, IOA, dan TTP\n",
+            "Berikut adalah klasifikasi forensik komprehensif atas temuan investigasi:"
+        ]
+    },
+    {
+        "cell_type": "code",
+        "execution_count": None,
+        "metadata": {},
+        "outputs": [],
+        "source": [
+            "# Tabel Klasifikasi IOC, IOA, dan TTP\n",
+            "indicators_classification = {\n",
+            "    \"Klasifikasi\": [\n",
+            "        \"IOC (Indicator of Compromise)\",\n",
+            "        \"IOC (Indicator of Compromise)\",\n",
+            "        \"IOC (Indicator of Compromise)\",\n",
+            "        \"IOA (Indicator of Attack)\",\n",
+            "        \"IOA (Indicator of Attack)\",\n",
+            "        \"IOA (Indicator of Attack)\",\n",
+            "        \"TTP (Tactics, Techniques, Procedures)\",\n",
+            "        \"TTP (Tactics, Techniques, Procedures)\",\n",
+            "        \"TTP (Tactics, Techniques, Procedures)\"\n",
+            "    ],\n",
+            "    \"Entitas / Parameter\": [\n",
+            "        \"External C2 IP: 100.64.43.120 (RFC 6598 sanitasi)\",\n",
+            "        \"Compromised Host: 192.168.96.104 (MAC: 00:a5:54:cb:19:84)\",\n",
+            "        \"Anomalous Destination Ports: 13731, 8880, 4112, 4010\",\n",
+            "        \"Koneksi Outbound HTTPS mencurigakan dari segmen WAP resepsionis\",\n",
+            "        \"Pemindaian port horizontal serentak ke 15 node jaringan cabang Loxley\",\n",
+            "        \"Disrupsi otomatis firewall perimeter (action: deny) pada traffic keluar\",\n",
+            "        \"T1190 - Initial foothold melalui eksploitasi web perimeter\",\n",
+            "        \"T1071.001 & T1041 - C2 beaconing & data exfiltration via HTTPS\",\n",
+            "        \"T1046 & T1021 - Internal network discovery & lateral movement\"\n",
+            "    ],\n",
+            "    \"Keterangan & Signifikansi Forensik\": [\n",
+            "        \"Target komunikasi C2 yang terdeteksi cocok dengan blacklist domain FireEye HX.\",\n",
+            "        \"Workstation resepsionis kantor pusat yang menjadi ground-zero infeksi.\",\n",
+            "        \"Port non-standar yang digunakan aktor untuk probing lateral antar cabang.\",\n",
+            "        \"Pola komunikasi beaconing periodik yang memicu Stealthwatch HCI Alarm.\",\n",
+            "        \"Aktivitas pengintaian aktif (active reconnaissance) sebelum eksekusi data theft.\",\n",
+            "        \"Bukti intervensi kontrol keamanan yang memutus kebocoran data keluar.\",\n",
+            "        \"Vektor masuk awal penyerang ke dalam ekosistem korporat ORG-0003.\",\n",
+            "        \"Protokol terenkripsi yang dipilih untuk mengaburkan inspeksi paket inspeksi.\",\n",
+            "        \"Metode pergerakan menyamping untuk menguasai segmen jaringan cabang lain.\"\n",
+            "    ]\n",
+            "}\n",
+            "\n",
+            "df_indicators = pd.DataFrame(indicators_classification)\n",
+            "display(df_indicators)"
+        ]
+    },
+    {
+        "cell_type": "markdown",
+        "metadata": {},
+        "source": [
+            "### 4.2 Pemetaan Mendalam MITRE ATT&CK Matrix\n",
+            "Pemetaan perilaku ke taktik dan teknik MITRE ATT&CK Enterprise Matrix dengan alasan teknis dan tingkat keyakinan (*Confidence Level*):"
+        ]
+    },
+    {
+        "cell_type": "code",
+        "execution_count": None,
+        "metadata": {},
+        "outputs": [],
+        "source": [
+            "# Pemetaan MITRE ATT&CK Matrix\n",
+            "mitre_mapping = {\n",
+            "    \"MITRE Tactic\": [\n",
+            "        \"Initial Access (TA0001)\",\n",
+            "        \"Command and Control (TA0011)\",\n",
+            "        \"Exfiltration (TA0010)\",\n",
+            "        \"Exfiltration (TA0010)\",\n",
+            "        \"Discovery (TA0007)\",\n",
+            "        \"Lateral Movement (TA0008)\"\n",
+            "    ],\n",
+            "    \"Technique & ID\": [\n",
+            "        \"T1190 - Exploit Public-Facing Application\",\n",
+            "        \"T1071.001 - Web Protocols (HTTPS/443)\",\n",
+            "        \"T1041 - Exfiltration Over C2 Channel\",\n",
+            "        \"T1567 - Exfiltration Over Web Service\",\n",
+            "        \"T1046 - Network Service Discovery\",\n",
+            "        \"T1021 - Remote Services\"\n",
+            "    ],\n",
+            "    \"Alasan Pemetaan Berdasarkan Evidence\": [\n",
+            "        \"Eksploitasi aplikasi web perimeter (sesuai modul kompromi web server & relasi WAF Barracuda) untuk penanaman foothold awal.\",\n",
+            "        \"Host internal 192.168.96.104 menghubungi IP eksternal 100.64.43.120 via port 443 yang terbukti cocok dengan blacklist C2 domain pada FireEye HX.\",\n",
+            "        \"Modus operandi diklasifikasikan sebagai Data Theft dengan alarm anomali penimbunan data keluar pada Cisco Stealthwatch.\",\n",
+            "        \"Upaya transmisi data keluar menggunakan format web request terenkripsi untuk mengelabui filter perimeter firewall.\",\n",
+            "        \"Host di cabang Loxley (100.64.41.160) memindai 15 target internal pada port anomali 13731 (29 detection leads).\",\n",
+            "        \"Percobaan pergerakan lateral internal ke gateway Atlanta (port 8880) dan Conyers (port 4112).\"\n",
+            "    ],\n",
+            "    \"Confidence Level\": [\"Medium\", \"High\", \"High\", \"High\", \"High\", \"Medium\"]\n",
+            "}\n",
+            "\n",
+            "df_mitre = pd.DataFrame(mitre_mapping)\n",
+            "display(df_mitre)"
+        ]
+    },
+    {
+        "cell_type": "markdown",
+        "metadata": {},
+        "source": [
+            "### 4.3 Batasan Atribusi (Attribution Limitations)\n",
+            "Dalam melakukan analisis ancaman, penting untuk mencatat batasan teknis atribusi berikut:\n",
+            "1. **Sanitasi IP (RFC 6598):** Seluruh IP publik telah disanitasi menggunakan skema HMAC konsisten ke blok CGNAT (`100.64.0.0/10`), sehingga resolusi geolokasi presisi (AS Number / Negara C2) tidak dapat dipastikan 100%.\n",
+            "2. **Enkripsi TLS 1.3:** Lalu lintas port 443 terenkripsi end-to-end tanpa SSL Decryption appliance pada gateway WAP, sehingga muatan file spesifik yang dicoba dieksfiltrasi tidak dapat didekripsi dari paket mentah.\n",
+            "3. **Ketiadaan File Hash Biner:** Data network syslog murni tidak menyertakan hash SHA256 proses biner yang berjalan, sehingga atribusi ke unit APT spesifik dibatasi pada tingkat profil taktis (*Cybercrime IAB*)."
+        ]
+    },
+    {
+        "cell_type": "markdown",
+        "metadata": {},
+        "source": [
+            "## 5. Threat Hunting Queries & Detection Engineering (Soal 5 - Bobot: 20 Poin)\n",
+            "Menyajikan minimal dua hunting query menggunakan sintaks platform SIEM standar (Splunk SPL / EQL) serta implementasi kueri reproduksi berbasis Python/SQL, lengkap dengan analisis False Positive dan rekomendasi tuning deteksi.\n",
+            "\n",
+            "### 5.1 Kueri 1: Cross-Source Temporal Join (EDR Alert + Firewall Deny Outbound)\n",
+            "```spl\n",
+            "# SPLUNK SPL SYNTAX:\n",
+            "index=fireeye sourcetype=\"fe_hx_alerts\" signature=\"*Domain Match*\"\n",
+            "| eval match_time=_time, target_c2=server_ip, host_ip=client_ip\n",
+            "| join type=inner max=0 host_ip [\n",
+            "    search index=meraki sourcetype=\"meraki:security\" action=\"deny\" dest_port=443\n",
+            "    | eval deny_time=_time, dest_c2=dst_ip\n",
+            "]\n",
+            "| where abs(match_time - deny_time) <= 300 AND target_c2 == dest_c2\n",
+            "| table _time, host_ip, target_c2, signature, action, dest_port\n",
+            "```\n",
+            "- **Field yang dicari:** `client_ip`, `server_ip`, `signature`, `action`, `dest_port`, `_time`.\n",
+            "- **Logika Filter & Korelasi:** Menggabungkan alert EDR Domain Match dengan event firewall deny pada port 443 dalam jendela waktu $\\le 300$ detik pada IP tujuan yang sama.\n",
+            "- **Kemungkinan False Positive:** Update berkala browser/antivirus yang salah teridentifikasi pada blacklist usang.\n",
+            "- **Ide Tuning Deteksi:** Whitelist domain resmi cloud provider dan tambahkan threshold minimum byte transfer."
+        ]
+    },
+    {
+        "cell_type": "code",
+        "execution_count": None,
+        "metadata": {},
+        "outputs": [],
+        "source": [
+            "# SIMULASI EKSEKUSI KUERI 1 BERBASIS PYTHON DATA ENGINE (KORELASI EDR + NDR + FIREWALL)\n",
+            "def execute_hunting_query_1(incidents):\n",
+            "    alerts = []\n",
+            "    for inc in incidents:\n",
+            "        tools = [t.get('name') for t in inc.get('tools', {}).values()]\n",
+            "        leads = inc.get('leads', [])\n",
+            "        \n",
+            "        has_edr_domain = any('domain match' in str(l.get('description')).lower() for l in leads)\n",
+            "        has_firewall_deny = any(l.get('action') == 'deny' or l.get('action') == 'block' for l in leads)\n",
+            "        has_stealthwatch = any('stealthwatch' in str(t).lower() for t in tools)\n",
+            "        \n",
+            "        if has_edr_domain and has_firewall_deny and has_stealthwatch:\n",
+            "            target_host = [n.get('ip') for n in inc.get('nodes', {}).values() if n.get('internal')]\n",
+            "            target_c2 = [n.get('ip') for n in inc.get('nodes', {}).values() if not n.get('internal')]\n",
+            "            alerts.append({\n",
+            "                \"Incident ID\": inc.get('id'),\n",
+            "                \"Incident Name\": inc.get('name'),\n",
+            "                \"Suspicion Score\": inc.get('suspicion_score'),\n",
+            "                \"Internal Infected Host\": target_host[0] if target_host else 'N/A',\n",
+            "                \"External C2 Target\": target_c2[0] if target_c2 else 'N/A',\n",
+            "                \"Correlated Sensors\": list(set(tools)),\n",
+            "                \"Status\": \"CONFIRMED THREAT (C2 Exfiltration Disrupted)\"\n",
+            "            })\n",
+            "    return pd.DataFrame(alerts)\n",
+            "\n",
+            "df_q1_results = execute_hunting_query_1(campaign_incidents)\n",
+            "print(\"[QUERY 1 RESULTS - Cross-Source Temporal Join]\")\n",
+            "display(df_q1_results)"
+        ]
+    },
+    {
+        "cell_type": "markdown",
+        "metadata": {},
+        "source": [
+            "### 5.2 Kueri 2: Multi-Branch Lateral Probing & Port Sweep Detector\n",
+            "```spl\n",
+            "# SPLUNK SPL SYNTAX:\n",
+            "index=stealthwatch sourcetype=\"cisco:stealthwatch:flows\" dest_port IN (13731, 8880, 4112, 4010)\n",
+            "| bin _time span=10m\n",
+            "| stats dc(dest_ip) as distinct_targets, count as total_probes, values(dest_port) as targeted_ports by _time, src_ip, sensor_name\n",
+            "| where distinct_targets >= 5\n",
+            "| sort - distinct_targets\n",
+            "```\n",
+            "- **Field yang dicari:** `src_ip`, `dest_ip`, `dest_port`, `sensor_name`, `_time`.\n",
+            "- **Logika Filter & Korelasi:** Agregasi host internal yang menghubungi $\\ge 5$ host tujuan berbeda pada port anomali dalam jendela waktu 10 menit.\n",
+            "- **Kemungkinan False Positive:** Scanner kerentanan resmi (Vulnerability Scanner seperti Nessus/Qualys) atau agen backup terdistribusi.\n",
+            "- **Ide Tuning Deteksi:** Kecualikan subnet/IP scanner resmi internal dan pasang alerting jika port sweep diikuti traffic transfer volume besar."
+        ]
+    },
+    {
+        "cell_type": "code",
+        "execution_count": None,
+        "metadata": {},
+        "outputs": [],
+        "source": [
+            "# SIMULASI EKSEKUSI KUERI 2 BERBASIS PYTHON DATA ENGINE (LATERAL PROBING DETECTOR)\n",
+            "def execute_hunting_query_2(timeline_df):\n",
+            "    anomalous_ports = ['13731', '8880', '4112', '4010']\n",
+            "    sweeps = []\n",
+            "    for idx, row in timeline_df.iterrows():\n",
+            "        dst_port = row['Destination Entity'].split(':')[-1] if ':' in row['Destination Entity'] else ''\n",
+            "        src_ip = row['Source Entity'].split(':')[0]\n",
+            "        dst_ip = row['Destination Entity'].split(':')[0]\n",
+            "        if dst_port in anomalous_ports:\n",
+            "            sweeps.append({\n",
+            "                \"src_ip\": src_ip,\n",
+            "                \"dst_ip\": dst_ip,\n",
+            "                \"dst_port\": dst_port,\n",
+            "                \"sensor\": row['Sensor Source']\n",
+            "            })\n",
+            "            \n",
+            "    df_sweeps = pd.DataFrame(sweeps)\n",
+            "    if not df_sweeps.empty:\n",
+            "        summary = df_sweeps.groupby(['src_ip', 'dst_port', 'sensor']).agg(\n",
+            "            probed_hosts=('dst_ip', 'nunique'),\n",
+            "            probe_attempts=('dst_ip', 'count')\n",
+            "        ).reset_index()\n",
+            "        return summary\n",
+            "    return pd.DataFrame()\n",
+            "\n",
+            "df_q2_results = execute_hunting_query_2(df_timeline_all)\n",
+            "print(\"[QUERY 2 RESULTS - Lateral Probing Aggregation]\")\n",
+            "display(df_q2_results)"
+        ]
+    },
+    {
+        "cell_type": "markdown",
+        "metadata": {},
+        "source": [
+            "## 6. Laporan Singkat, Rekomendasi Deteksi & Bukti Demo (Soal 6 - Bobot: 10 Poin)\n",
+            "### 6.1 Executive Summary & Temuan Utama\n",
+            "- **Executive Summary:** Berdasarkan perburuan ancaman (*threat hunting*) pada telemetri tenant **ORG-0003**, ditemukan kampanye terkoordinasi **Data Theft (Partisi 233678)** yang memanfaatkan workstation resepsionis kantor pusat (`192.168.96.104`) sebagai basis kompromi awal untuk upaya transmisi C2 keluar dan pergerakan lateral ke kantor-kantor cabang (Atlanta, Conyers, Loxley, Northbrook).\n",
+            "- **Metodologi:** Investigasi menerapkan kerangka kerja *Hypothesis-Based Threat Hunting* yang dikombinasikan dengan korelasi multi-sensor (*Diamond Model for Intrusion Analysis* dan *MITRE ATT&CK Framework*).\n",
+            "- **Temuan Utama:** Insiden puncak `25512200-01d5-11ee-8c41-374f8f3a6a1c` (Defiant Pike 233678, skor 0.859) berhasil mengaitkan *FireEye HX Domain Match* dengan *Cisco Stealthwatch High Concern Index Alarm* dan aksi pemblokiran *Cisco Meraki WAP* pada port HTTPS 443.\n",
+            "- **Tingkat Keyakinan (Confidence Level):** **HIGH (Tinggi)** untuk keberadaan infeksi host dan aktivitas C2 beaconing; **MEDIUM** untuk atribuisi kelompok penyerang spesifik karena enkripsi TLS dan sanitasi IP RFC 6598.\n",
+            "- **Dampak Potensial:** Kebocoran data rahasia korporat, kompromi jaringan cabang nirkabel, dan potensi instalasi ransomware atau web shell persisten."
+        ]
+    },
+    {
+        "cell_type": "code",
+        "execution_count": None,
+        "metadata": {},
+        "outputs": [],
+        "source": [
+            "# Matriks Prioritas Tindak Lanjut Terprioritaskan (Action Plan P1, P2, P3)\n",
+            "action_plan = {\n",
+            "    \"Prioritas\": [\"P1 (Immediate - 0 s/d 24 Jam)\", \"P2 (Short-Term - 1 s/d 3 Hari)\", \"P3 (Long-Term - 1 s/d 2 Minggu)\"],\n",
+            "    \"Tingkat\": [\"Kritis\", \"Tinggi\", \"Menengah\"],\n",
+            "    \"Tindakan Remediasi & Rekomendasi Deteksi\": [\n",
+            "        \"1. Isolasi jaringan secara logis terhadap host 192.168.96.104.\\n2. Blokir IP 100.64.43.120 pada seluruh perimeter firewall dan sinkhole DNS.\\n3. Reset seluruh kredensial akun yang pernah logon pada workstation terinfeksi.\",\n",
+            "        \"1. Tutup port non-standar (13731, 8880, 4112, 4010) pada ACL router cabang.\\n2. Terapkan microsegmentation: isolasi subnet nirkabel resepsionis dari segmen server.\\n3. Ambil forensic disk/memory dump untuk analisis artefak web shell/backdoor.\",\n",
+            "        \"1. Deploy kueri korelasi otomatis SIEM (EDR match + outbound deny flow).\\n2. Terapkan TLS Inspection pada perimeter gateway untuk inspeksi muatan port 443.\\n3. Lakukan audit integritas direktori web server berkala untuk mencegah SEO spam.\"\n",
+            "    ],\n",
+            "    \"Penanggung Jawab\": [\"Tim SOC & Incident Response\", \"Tim Network & Security Engineer\", \"Tim Security Architect\"]\n",
+            "}\n",
+            "\n",
+            "df_plan = pd.DataFrame(action_plan)\n",
+            "display(df_plan)"
+        ]
+    },
+    {
+        "cell_type": "markdown",
+        "metadata": {},
+        "source": [
+            "### 6.2 Lampiran Link Demo & Verifikasi Analisis (Sesuai Ketentuan Soal 6)\n",
+            "Sesuai ketentuan Soal 6, seluruh proses pencarian event, korelasi multi-sumber, penyusunan timeline, dan dasar pengambilan keputusan analisis dapat diakses dan diverifikasi secara langsung melalui tautan publik berikut:\n",
+            "\n",
+            "1. **Google Colab Notebook (Live):**  \n",
+            "   [https://colab.research.google.com/drive/1ys4l468E6lEuRepVZIOlKEUzR-kNK1LJ](https://colab.research.google.com/drive/1ys4l468E6lEuRepVZIOlKEUzR-kNK1LJ)  \n",
+            "   *(Alternatif 1-Click Run langsung dari GitHub: [Buka di Google Colab](https://colab.research.google.com/github/Dzul-Ikram/UTS-ThreatHunting/blob/main/Threat_Hunting_Investigation.ipynb))*\n",
+            "\n",
+            "2. **Repository GitHub Resmi:**  \n",
+            "   [https://github.com/Dzul-Ikram/UTS-ThreatHunting](https://github.com/Dzul-Ikram/UTS-ThreatHunting)\n",
+            "\n",
+            "3. **Live Interactive Web Dashboard (GitHub Pages):**  \n",
+            "   [https://dzul-ikram.github.io/UTS-ThreatHunting/](https://dzul-ikram.github.io/UTS-ThreatHunting/)\n",
+            "\n",
+            "4. **Laporan Resmi PDF:**  \n",
+            "   `Laporan_Threat_Hunting_Ujian.pdf` (tersedia di repository)"
+        ]
+    }
+]
+
+notebook = {
+    "cells": notebook_cells,
+    "metadata": {
+        "colab": {
+            "name": "Threat_Hunting_Investigation.ipynb",
+            "provenance": []
+        },
+        "language_info": {
+            "name": "python"
+        }
+    },
+    "nbformat": 4,
+    "nbformat_minor": 0
+}
+
+nb_path = r"d:\threat hunting\Threat_Hunting_Investigation.ipynb"
+with open(nb_path, 'w', encoding='utf-8') as f:
+    json.dump(notebook, f, indent=2)
+
+print(f"Jupyter Notebook berhasil diperbarui dan diselaraskan secara sempurna di: {nb_path}")

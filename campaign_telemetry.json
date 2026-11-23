@@ -1,0 +1,1312 @@
+[
+  {
+    "id": "220440f0-01d5-11ee-8c41-374f8f3a6a1c",
+    "name": "Annoyed Sheep 233678",
+    "org": "ORG-0003",
+    "orgId": "ad7c603c-b730-4953-bd7b-e0d70396309b",
+    "mo_name": "Data Theft",
+    "suspicion_score": 0.7890625,
+    "status_name": "Disrupted",
+    "first_observed_at": 1685731753,
+    "last_observed_at": 1685748235,
+    "tools": {
+      "1": {
+        "name": "Stealthwatch",
+        "vendor": "Cisco"
+      }
+    },
+    "nodes": {
+      "878b1fe2-f53f-11ed-a68f-bf781f500730": {
+        "ip": "100.64.26.213",
+        "hostname": "100.64.26.213",
+        "internal": false,
+        "mac": ""
+      },
+      "416a2ba2-9d8d-11ed-98f8-cd6642d241c0": {
+        "ip": "100.64.41.191",
+        "hostname": "100.64.41.191",
+        "internal": false,
+        "mac": ""
+      },
+      "3651a112-f361-11ed-b4f2-576a47b3fcb2": {
+        "ip": "100.64.42.198",
+        "hostname": "100.64.42.198",
+        "internal": false,
+        "mac": ""
+      },
+      "02015d21-9da2-11ed-8c0c-99fec162cebf": {
+        "ip": "100.64.43.109",
+        "hostname": "100.64.43.109",
+        "internal": false,
+        "mac": ""
+      }
+    },
+    "leads": [
+      {
+        "lead_id": "e8d209d3-0198-11ee-bf1a-cded780fa66d",
+        "description": "Stealthwatch High Concern Index Alarm",
+        "product": "Stealthwatch",
+        "clientip": "100.64.26.213",
+        "clientport": 55555,
+        "serverip": "100.64.41.191",
+        "serverport": 4112,
+        "action": "block",
+        "protocol": 6,
+        "raw_message": "<134>Original Address=100.64.41.191 1 1685743302.892808874 M38_MX67C_Conyers flows src=100.64.26.213 dst=100.64.41.191 protocol=tcp sport=55555 dport=4112 pattern: 1 all",
+        "observed_at": 1685746674
+      },
+      {
+        "lead_id": "e8d209d4-0198-11ee-bf1a-cded780fa66d",
+        "description": "Stealthwatch High Concern Index Alarm",
+        "product": "Stealthwatch",
+        "clientip": "100.64.26.213",
+        "clientport": 55555,
+        "serverip": "100.64.41.191",
+        "serverport": 4112,
+        "action": "block",
+        "protocol": 6,
+        "raw_message": "<134>Original Address=100.64.41.191 1 1685743302.892808874 M38_MX67C_Conyers flows src=100.64.26.213 dst=100.64.41.191 protocol=tcp sport=55555 dport=4112 pattern: 1 all",
+        "observed_at": 1685746674
+      },
+      {
+        "lead_id": "8af25f9a-019c-11ee-a7c9-836ea93cbec2",
+        "description": "Stealthwatch High Concern Index Alarm",
+        "product": "Stealthwatch",
+        "clientip": "100.64.42.198",
+        "clientport": 53499,
+        "serverip": "100.64.41.191",
+        "serverport": 37561,
+        "action": "block",
+        "protocol": 6,
+        "raw_message": "<134>Original Address=100.64.41.191 1 1685744841.746004620 M38_MX67C_Conyers flows src=100.64.42.198 dst=100.64.41.191 protocol=tcp sport=53499 dport=37561 pattern: 1 all",
+        "observed_at": 1685748235
+      },
+      {
+        "lead_id": "8af25f9b-019c-11ee-a7c9-836ea93cbec2",
+        "description": "Stealthwatch High Concern Index Alarm",
+        "product": "Stealthwatch",
+        "clientip": "100.64.42.198",
+        "clientport": 53499,
+        "serverip": "100.64.41.191",
+        "serverport": 37561,
+        "action": "block",
+        "protocol": 6,
+        "raw_message": "<134>Original Address=100.64.41.191 1 1685744841.746004620 M38_MX67C_Conyers flows src=100.64.42.198 dst=100.64.41.191 protocol=tcp sport=53499 dport=37561 pattern: 1 all",
+        "observed_at": 1685748235
+      },
+      {
+        "lead_id": "2ad25476-0176-11ee-a541-595a4fe8c568",
+        "description": "Stealthwatch High Concern Index Alarm",
+        "product": "Stealthwatch",
+        "clientip": "100.64.43.109",
+        "clientport": 45941,
+        "serverip": "100.64.41.191",
+        "serverport": 43009,
+        "action": "block",
+        "protocol": 6,
+        "raw_message": "<134>Original Address=100.64.41.191 1 1685731358.716637488 M38_MX67C_Conyers flows src=100.64.43.109 dst=100.64.41.191 protocol=tcp sport=45941 dport=43009 pattern: 1 all",
+        "observed_at": 1685731753
+      },
+      {
+        "lead_id": "2ad25477-0176-11ee-a541-595a4fe8c568",
+        "description": "Stealthwatch High Concern Index Alarm",
+        "product": "Stealthwatch",
+        "clientip": "100.64.43.109",
+        "clientport": 45941,
+        "serverip": "100.64.41.191",
+        "serverport": 43009,
+        "action": "block",
+        "protocol": 6,
+        "raw_message": "<134>Original Address=100.64.41.191 1 1685731358.716637488 M38_MX67C_Conyers flows src=100.64.43.109 dst=100.64.41.191 protocol=tcp sport=45941 dport=43009 pattern: 1 all",
+        "observed_at": 1685731753
+      }
+    ]
+  },
+  {
+    "id": "22188c40-01d5-11ee-8c41-374f8f3a6a1c",
+    "name": "Distinct Primate 233678",
+    "org": "ORG-0003",
+    "orgId": "ad7c603c-b730-4953-bd7b-e0d70396309b",
+    "mo_name": "Data Theft",
+    "suspicion_score": 0.71875,
+    "status_name": "Disrupted",
+    "first_observed_at": 1685746674,
+    "last_observed_at": 1685751266,
+    "tools": {
+      "1": {
+        "name": "Stealthwatch",
+        "vendor": "Cisco"
+      }
+    },
+    "nodes": {
+      "fe6de120-f50c-11ed-8e56-096f1a37084c": {
+        "ip": "100.64.27.241",
+        "hostname": "100.64.27.241",
+        "internal": false,
+        "mac": ""
+      },
+      "4d03b651-9d8a-11ed-98f8-cd6642d241c0": {
+        "ip": "100.64.40.28",
+        "hostname": "100.64.40.28",
+        "internal": true,
+        "mac": ""
+      },
+      "80669900-9fc3-11ed-bcba-1db6cf756296": {
+        "ip": "100.64.43.110",
+        "hostname": "100.64.43.110",
+        "internal": false,
+        "mac": ""
+      }
+    },
+    "leads": [
+      {
+        "lead_id": "e8d209d6-0198-11ee-bf1a-cded780fa66d",
+        "description": "Stealthwatch High Concern Index Alarm",
+        "product": "Stealthwatch",
+        "clientip": "100.64.27.241",
+        "clientport": 54107,
+        "serverip": "100.64.40.28",
+        "serverport": 8880,
+        "action": "block",
+        "protocol": 6,
+        "raw_message": "<134>Original Address=100.64.40.28 1 1685743302.874662453 M34_MX67C_Atlanta flows src=100.64.27.241 dst=100.64.40.28 protocol=tcp sport=54107 dport=8880 pattern: 1 all",
+        "observed_at": 1685746674
+      },
+      {
+        "lead_id": "e8d209d7-0198-11ee-bf1a-cded780fa66d",
+        "description": "Stealthwatch High Concern Index Alarm",
+        "product": "Stealthwatch",
+        "clientip": "100.64.27.241",
+        "clientport": 54107,
+        "serverip": "100.64.40.28",
+        "serverport": 8880,
+        "action": "block",
+        "protocol": 6,
+        "raw_message": "<134>Original Address=100.64.40.28 1 1685743302.874662453 M34_MX67C_Atlanta flows src=100.64.27.241 dst=100.64.40.28 protocol=tcp sport=54107 dport=8880 pattern: 1 all",
+        "observed_at": 1685746674
+      },
+      {
+        "lead_id": "99ad42f7-01a3-11ee-9357-0de0f449a009",
+        "description": "Stealthwatch High Concern Index Alarm",
+        "product": "Stealthwatch",
+        "clientip": "100.64.43.110",
+        "clientport": 40636,
+        "serverip": "100.64.40.28",
+        "serverport": 3389,
+        "action": "block",
+        "protocol": 6,
+        "raw_message": "<134>Original Address=100.64.40.28 1 1685749044.182784977 M34_MX67C_Atlanta flows src=100.64.43.110 dst=100.64.40.28 protocol=tcp sport=40636 dport=3389 pattern: 1 all",
+        "observed_at": 1685751266
+      },
+      {
+        "lead_id": "99ad42f8-01a3-11ee-9357-0de0f449a009",
+        "description": "Stealthwatch High Concern Index Alarm",
+        "product": "Stealthwatch",
+        "clientip": "100.64.43.110",
+        "clientport": 40636,
+        "serverip": "100.64.40.28",
+        "serverport": 3389,
+        "action": "block",
+        "protocol": 6,
+        "raw_message": "<134>Original Address=100.64.40.28 1 1685749044.182784977 M34_MX67C_Atlanta flows src=100.64.43.110 dst=100.64.40.28 protocol=tcp sport=40636 dport=3389 pattern: 1 all",
+        "observed_at": 1685751266
+      }
+    ]
+  },
+  {
+    "id": "25373160-01d5-11ee-8c41-374f8f3a6a1c",
+    "name": "Amiable Ant 233678",
+    "org": "ORG-0003",
+    "orgId": "ad7c603c-b730-4953-bd7b-e0d70396309b",
+    "mo_name": "Data Theft",
+    "suspicion_score": 0.7890625,
+    "status_name": "Disrupted",
+    "first_observed_at": 1685731753,
+    "last_observed_at": 1685772791,
+    "tools": {
+      "1": {
+        "name": "Stealthwatch",
+        "vendor": "Cisco"
+      }
+    },
+    "nodes": {
+      "58afe1d1-9d8b-11ed-9ba1-69c845a45d44": {
+        "ip": "100.64.41.160",
+        "hostname": "100.64.41.160",
+        "internal": false,
+        "mac": ""
+      },
+      "49a88f51-9d88-11ed-98f8-cd6642d241c0": {
+        "ip": "100.64.39.193",
+        "hostname": "251-752-7955",
+        "internal": true,
+        "mac": ""
+      },
+      "8e2d8641-a91c-11ed-8c9f-71cf33c0929e": {
+        "ip": "100.64.43.111",
+        "hostname": "100.64.43.111",
+        "internal": false,
+        "mac": ""
+      },
+      "c3141b20-016a-11ee-907e-03a56655bf31": {
+        "ip": "100.64.43.112",
+        "hostname": "100.64.43.112",
+        "internal": false,
+        "mac": ""
+      },
+      "de5b5a91-9d8a-11ed-9ba1-69c845a45d44": {
+        "ip": "100.64.40.78",
+        "hostname": "100.64.40.78",
+        "internal": true,
+        "mac": ""
+      },
+      "25fbe511-a35b-11ed-9136-2f611bbd64af": {
+        "ip": "100.64.43.113",
+        "hostname": "100.64.43.113",
+        "internal": false,
+        "mac": ""
+      },
+      "d98e4f30-f41b-11ed-9f92-010b797cf58f": {
+        "ip": "100.64.43.114",
+        "hostname": "100.64.43.114",
+        "internal": false,
+        "mac": ""
+      },
+      "6c949911-01aa-11ee-8a02-fd736a5f8f98": {
+        "ip": "100.64.43.115",
+        "hostname": "100.64.43.115",
+        "internal": false,
+        "mac": ""
+      },
+      "e62afa11-9d89-11ed-9ba1-69c845a45d44": {
+        "ip": "100.64.41.3",
+        "hostname": "100.64.41.3",
+        "internal": false,
+        "mac": ""
+      },
+      "55ab82d0-9d88-11ed-98f8-cd6642d241c0": {
+        "ip": "100.64.40.174",
+        "hostname": "100.64.40.174",
+        "internal": false,
+        "mac": ""
+      },
+      "abe5a5c0-01d5-11ee-bdd9-639965c229b6": {
+        "ip": "100.64.43.116",
+        "hostname": "100.64.43.116",
+        "internal": false,
+        "mac": ""
+      },
+      "290b9a22-9d89-11ed-9ba1-69c845a45d44": {
+        "ip": "100.64.43.117",
+        "hostname": "100.64.43.117",
+        "internal": false,
+        "mac": ""
+      },
+      "442b50a2-f533-11ed-ae63-2754c51ab712": {
+        "ip": "100.64.43.17",
+        "hostname": "100.64.43.17",
+        "internal": false,
+        "mac": ""
+      },
+      "e62a84e1-9d89-11ed-9ba1-69c845a45d44": {
+        "ip": "100.64.43.118",
+        "hostname": "100.64.43.118",
+        "internal": false,
+        "mac": ""
+      },
+      "45fe9230-f500-11ed-98c9-a37e7239e2b5": {
+        "ip": "100.64.39.112",
+        "hostname": "100.64.39.112",
+        "internal": false,
+        "mac": ""
+      }
+    },
+    "leads": [
+      {
+        "lead_id": "28593181-018b-11ee-9747-b5c581f370af",
+        "description": "Stealthwatch High Concern Index Alarm",
+        "product": "Stealthwatch",
+        "clientip": "100.64.41.160",
+        "clientport": 54117,
+        "serverip": "100.64.39.193",
+        "serverport": 13731,
+        "action": "block",
+        "protocol": 6,
+        "raw_message": "<134>Original Address=100.64.39.161 1 1685736607.650332779 M52_MX67C_Loxley flows src=100.64.41.160 dst=100.64.39.193 protocol=tcp sport=54117 dport=13731 pattern: 1 all",
+        "observed_at": 1685740768
+      },
+      {
+        "lead_id": "28593182-018b-11ee-9747-b5c581f370af",
+        "description": "Stealthwatch High Concern Index Alarm",
+        "product": "Stealthwatch",
+        "clientip": "100.64.41.160",
+        "clientport": 54117,
+        "serverip": "100.64.39.193",
+        "serverport": 13731,
+        "action": "block",
+        "protocol": 6,
+        "raw_message": "<134>Original Address=100.64.39.161 1 1685736607.650332779 M52_MX67C_Loxley flows src=100.64.41.160 dst=100.64.39.193 protocol=tcp sport=54117 dport=13731 pattern: 1 all",
+        "observed_at": 1685740768
+      },
+      {
+        "lead_id": "6bfbf416-01d5-11ee-a075-d3a245d06ec3",
+        "description": "Stealthwatch High Concern Index Alarm",
+        "product": "Stealthwatch",
+        "clientip": "100.64.43.111",
+        "clientport": 50616,
+        "serverip": "100.64.39.193",
+        "serverport": 88,
+        "action": "block",
+        "protocol": 6,
+        "raw_message": "<134>Original Address=100.64.39.161 1 1685770646.202210959 M52_MX67C_Loxley flows src=100.64.43.111 dst=100.64.39.193 protocol=tcp sport=50616 dport=88 pattern: 1 all",
+        "observed_at": 1685772664
+      },
+      {
+        "lead_id": "6bfbf417-01d5-11ee-a075-d3a245d06ec3",
+        "description": "Stealthwatch High Concern Index Alarm",
+        "product": "Stealthwatch",
+        "clientip": "100.64.43.111",
+        "clientport": 50616,
+        "serverip": "100.64.39.193",
+        "serverport": 88,
+        "action": "block",
+        "protocol": 6,
+        "raw_message": "<134>Original Address=100.64.39.161 1 1685770646.202210959 M52_MX67C_Loxley flows src=100.64.43.111 dst=100.64.39.193 protocol=tcp sport=50616 dport=88 pattern: 1 all",
+        "observed_at": 1685772664
+      },
+      {
+        "lead_id": "4510b09f-01c9-11ee-a7d8-e94d818a2949",
+        "description": "Stealthwatch High Concern Index Alarm",
+        "product": "Stealthwatch",
+        "clientip": "100.64.43.112",
+        "clientport": 51265,
+        "serverip": "100.64.40.78",
+        "serverport": 3379,
+        "action": "block",
+        "protocol": 6,
+        "raw_message": "<134>Original Address=100.64.40.78 1 1685764062.534887026 M24_MX67C_ForestPark flows src=100.64.43.112 dst=100.64.40.78 protocol=tcp sport=51265 dport=3379 pattern: 1 all",
+        "observed_at": 1685767445
+      },
+      {
+        "lead_id": "4510b0a0-01c9-11ee-a7d8-e94d818a2949",
+        "description": "Stealthwatch High Concern Index Alarm",
+        "product": "Stealthwatch",
+        "clientip": "100.64.43.112",
+        "clientport": 51265,
+        "serverip": "100.64.40.78",
+        "serverport": 3379,
+        "action": "block",
+        "protocol": 6,
+        "raw_message": "<134>Original Address=100.64.40.78 1 1685764062.534887026 M24_MX67C_ForestPark flows src=100.64.43.112 dst=100.64.40.78 protocol=tcp sport=51265 dport=3379 pattern: 1 all",
+        "observed_at": 1685767445
+      },
+      {
+        "lead_id": "01668b83-01b5-11ee-8db5-a37fc94c8866",
+        "description": "Stealthwatch High Concern Index Alarm",
+        "product": "Stealthwatch",
+        "clientip": "100.64.41.160",
+        "clientport": 54117,
+        "serverip": "100.64.40.78",
+        "serverport": 5291,
+        "action": "block",
+        "protocol": 6,
+        "raw_message": "<134>Original Address=100.64.40.78 1 1685755639.471233080 M24_MX67C_ForestPark flows src=100.64.41.160 dst=100.64.40.78 protocol=tcp sport=54117 dport=5291 pattern: 1 all",
+        "observed_at": 1685758741
+      },
+      {
+        "lead_id": "01668b84-01b5-11ee-8db5-a37fc94c8866",
+        "description": "Stealthwatch High Concern Index Alarm",
+        "product": "Stealthwatch",
+        "clientip": "100.64.41.160",
+        "clientport": 54117,
+        "serverip": "100.64.40.78",
+        "serverport": 5291,
+        "action": "block",
+        "protocol": 6,
+        "raw_message": "<134>Original Address=100.64.40.78 1 1685755639.471233080 M24_MX67C_ForestPark flows src=100.64.41.160 dst=100.64.40.78 protocol=tcp sport=54117 dport=5291 pattern: 1 all",
+        "observed_at": 1685758741
+      },
+      {
+        "lead_id": "6667c677-01a6-11ee-a247-056a499b1661",
+        "description": "Stealthwatch High Concern Index Alarm",
+        "product": "Stealthwatch",
+        "clientip": "100.64.43.113",
+        "clientport": 6977,
+        "serverip": "100.64.39.193",
+        "serverport": 22,
+        "action": "block",
+        "protocol": 6,
+        "raw_message": "<134>Original Address=100.64.39.161 1 1685749017.117220883 M52_MX67C_Loxley flows src=100.64.43.113 dst=100.64.39.193 protocol=tcp sport=6977 dport=22 pattern: 1 all",
+        "observed_at": 1685752468
+      },
+      {
+        "lead_id": "6667c678-01a6-11ee-a247-056a499b1661",
+        "description": "Stealthwatch High Concern Index Alarm",
+        "product": "Stealthwatch",
+        "clientip": "100.64.43.113",
+        "clientport": 6977,
+        "serverip": "100.64.39.193",
+        "serverport": 22,
+        "action": "block",
+        "protocol": 6,
+        "raw_message": "<134>Original Address=100.64.39.161 1 1685749017.117220883 M52_MX67C_Loxley flows src=100.64.43.113 dst=100.64.39.193 protocol=tcp sport=6977 dport=22 pattern: 1 all",
+        "observed_at": 1685752468
+      },
+      {
+        "lead_id": "2ad22d51-0176-11ee-a541-595a4fe8c568",
+        "description": "Stealthwatch High Concern Index Alarm",
+        "product": "Stealthwatch",
+        "clientip": "100.64.43.114",
+        "clientport": 42715,
+        "serverip": "100.64.40.78",
+        "serverport": 13495,
+        "action": "block",
+        "protocol": 6,
+        "raw_message": "<134>Original Address=100.64.40.78 1 1685731358.838985978 M24_MX67C_ForestPark flows src=100.64.43.114 dst=100.64.40.78 protocol=tcp sport=42715 dport=13495 pattern: 1 all",
+        "observed_at": 1685731753
+      },
+      {
+        "lead_id": "2ad25470-0176-11ee-a541-595a4fe8c568",
+        "description": "Stealthwatch High Concern Index Alarm",
+        "product": "Stealthwatch",
+        "clientip": "100.64.43.114",
+        "clientport": 42715,
+        "serverip": "100.64.40.174",
+        "serverport": 13486,
+        "action": "block",
+        "protocol": 6,
+        "raw_message": "<134>Original Address=192.168.92.29 1 1685731358.769343238 NORDC_MX400_1 flows src=100.64.43.114 dst=100.64.40.174 protocol=tcp sport=42715 dport=13486 pattern: 1 all",
+        "observed_at": 1685731753
+      },
+      {
+        "lead_id": "2ad22d52-0176-11ee-a541-595a4fe8c568",
+        "description": "Stealthwatch High Concern Index Alarm",
+        "product": "Stealthwatch",
+        "clientip": "100.64.43.114",
+        "clientport": 42715,
+        "serverip": "100.64.40.78",
+        "serverport": 13495,
+        "action": "block",
+        "protocol": 6,
+        "raw_message": "<134>Original Address=100.64.40.78 1 1685731358.838985978 M24_MX67C_ForestPark flows src=100.64.43.114 dst=100.64.40.78 protocol=tcp sport=42715 dport=13495 pattern: 1 all",
+        "observed_at": 1685731753
+      },
+      {
+        "lead_id": "c2255d74-01ae-11ee-a08c-07412ada482a",
+        "description": "Stealthwatch High Concern Index Alarm",
+        "product": "Stealthwatch",
+        "clientip": "100.64.43.115",
+        "clientport": 21345,
+        "serverip": "100.64.41.3",
+        "serverport": 888,
+        "action": "block",
+        "protocol": 6,
+        "raw_message": "<134>Original Address=192.168.92.29 1 1685751461.175414662 NORDC_MX400_1 flows src=100.64.43.115 dst=100.64.41.3 protocol=tcp sport=21345 dport=888 pattern: 1 all",
+        "observed_at": 1685756058
+      },
+      {
+        "lead_id": "c2258485-01ae-11ee-a08c-07412ada482a",
+        "description": "Stealthwatch High Concern Index Alarm",
+        "product": "Stealthwatch",
+        "clientip": "100.64.40.174",
+        "clientport": 61293,
+        "serverip": "100.64.43.115",
+        "serverport": 21345,
+        "action": "block",
+        "protocol": 6,
+        "raw_message": "<134>Original Address=192.168.92.29 1 1685751459.322891179 NORDC_MX400_1 flows src=100.64.43.115 dst=100.64.40.174 protocol=tcp sport=21345 dport=61293 pattern: 1 all",
+        "observed_at": 1685756058
+      },
+      {
+        "lead_id": "c2255d75-01ae-11ee-a08c-07412ada482a",
+        "description": "Stealthwatch High Concern Index Alarm",
+        "product": "Stealthwatch",
+        "clientip": "100.64.43.115",
+        "clientport": 21345,
+        "serverip": "100.64.41.3",
+        "serverport": 888,
+        "action": "block",
+        "protocol": 6,
+        "raw_message": "<134>Original Address=192.168.92.29 1 1685751461.175414662 NORDC_MX400_1 flows src=100.64.43.115 dst=100.64.41.3 protocol=tcp sport=21345 dport=888 pattern: 1 all",
+        "observed_at": 1685756058
+      },
+      {
+        "lead_id": "c2258484-01ae-11ee-a08c-07412ada482a",
+        "description": "Stealthwatch High Concern Index Alarm",
+        "product": "Stealthwatch",
+        "clientip": "100.64.40.174",
+        "clientport": 61293,
+        "serverip": "100.64.43.115",
+        "serverport": 21345,
+        "action": "block",
+        "protocol": 6,
+        "raw_message": "<134>Original Address=192.168.92.29 1 1685751459.322891179 NORDC_MX400_1 flows src=100.64.43.115 dst=100.64.40.174 protocol=tcp sport=21345 dport=61293 pattern: 1 all",
+        "observed_at": 1685756058
+      },
+      {
+        "lead_id": "2ad25462-0176-11ee-a541-595a4fe8c568",
+        "description": "Stealthwatch High Concern Index Alarm",
+        "product": "Stealthwatch",
+        "clientip": "100.64.43.119",
+        "clientport": 57829,
+        "serverip": "100.64.40.174",
+        "serverport": 443,
+        "action": "block",
+        "protocol": 6,
+        "raw_message": "<134>Original Address=192.168.92.29 1 1685731358.821673498 NORDC_MX400_1 flows src=100.64.43.119 dst=100.64.40.174 protocol=tcp sport=57829 dport=443 pattern: 1 all",
+        "observed_at": 1685731753
+      },
+      {
+        "lead_id": "2ad25471-0176-11ee-a541-595a4fe8c568",
+        "description": "Stealthwatch High Concern Index Alarm",
+        "product": "Stealthwatch",
+        "clientip": "100.64.43.114",
+        "clientport": 42715,
+        "serverip": "100.64.40.174",
+        "serverport": 13486,
+        "action": "block",
+        "protocol": 6,
+        "raw_message": "<134>Original Address=192.168.92.29 1 1685731358.769343238 NORDC_MX400_1 flows src=100.64.43.114 dst=100.64.40.174 protocol=tcp sport=42715 dport=13486 pattern: 1 all",
+        "observed_at": 1685731753
+      },
+      {
+        "lead_id": "abe72c79-01d5-11ee-bdd9-639965c229b6",
+        "description": "Stealthwatch High Concern Index Alarm",
+        "product": "Stealthwatch",
+        "clientip": "100.64.43.116",
+        "clientport": 13628,
+        "serverip": "100.64.40.174",
+        "serverport": 23,
+        "action": "block",
+        "protocol": 6,
+        "raw_message": "<134>Original Address=192.168.92.29 1 1685770575.218495632 NORDC_MX400_1 flows src=100.64.43.116 dst=100.64.40.174 protocol=tcp sport=13628 dport=23 pattern: 1 all",
+        "observed_at": 1685772771
+      },
+      {
+        "lead_id": "abe72c7a-01d5-11ee-bdd9-639965c229b6",
+        "description": "Stealthwatch High Concern Index Alarm",
+        "product": "Stealthwatch",
+        "clientip": "100.64.43.116",
+        "clientport": 13628,
+        "serverip": "100.64.40.174",
+        "serverport": 23,
+        "action": "block",
+        "protocol": 6,
+        "raw_message": "<134>Original Address=192.168.92.29 1 1685770575.218495632 NORDC_MX400_1 flows src=100.64.43.116 dst=100.64.40.174 protocol=tcp sport=13628 dport=23 pattern: 1 all",
+        "observed_at": 1685772771
+      },
+      {
+        "lead_id": "e130bc5a-0190-11ee-a7c3-9f74693ad9fc",
+        "description": "Stealthwatch High Concern Index Alarm",
+        "product": "Stealthwatch",
+        "clientip": "100.64.43.117",
+        "clientport": 42420,
+        "serverip": "100.64.41.3",
+        "serverport": 3545,
+        "action": "block",
+        "protocol": 6,
+        "raw_message": "<134>Original Address=192.168.92.29 1 1685741484.822713131 NORDC_MX400_1 flows src=100.64.43.117 dst=100.64.41.3 protocol=tcp sport=42420 dport=3545 pattern: 1 all",
+        "observed_at": 1685743226
+      },
+      {
+        "lead_id": "e130bc5b-0190-11ee-a7c3-9f74693ad9fc",
+        "description": "Stealthwatch High Concern Index Alarm",
+        "product": "Stealthwatch",
+        "clientip": "100.64.43.117",
+        "clientport": 42420,
+        "serverip": "100.64.41.3",
+        "serverport": 3545,
+        "action": "block",
+        "protocol": 6,
+        "raw_message": "<134>Original Address=192.168.92.29 1 1685741484.822713131 NORDC_MX400_1 flows src=100.64.43.117 dst=100.64.41.3 protocol=tcp sport=42420 dport=3545 pattern: 1 all",
+        "observed_at": 1685743226
+      },
+      {
+        "lead_id": "83e57734-01c6-11ee-8532-db1a10f571e2",
+        "description": "Stealthwatch High Concern Index Alarm",
+        "product": "Stealthwatch",
+        "clientip": "100.64.43.17",
+        "clientport": 54593,
+        "serverip": "100.64.43.118",
+        "serverport": 30321,
+        "action": "block",
+        "protocol": 6,
+        "raw_message": "<134>Original Address=100.64.40.28 1 1685763080.198022295 M34_MX67C_Atlanta flows src=100.64.43.17 dst=100.64.43.118 protocol=tcp sport=54593 dport=30321 pattern: 1 all",
+        "observed_at": 1685766262
+      },
+      {
+        "lead_id": "83e57735-01c6-11ee-8532-db1a10f571e2",
+        "description": "Stealthwatch High Concern Index Alarm",
+        "product": "Stealthwatch",
+        "clientip": "100.64.43.17",
+        "clientport": 54593,
+        "serverip": "100.64.43.118",
+        "serverport": 30321,
+        "action": "block",
+        "protocol": 6,
+        "raw_message": "<134>Original Address=100.64.40.28 1 1685763080.198022295 M34_MX67C_Atlanta flows src=100.64.43.17 dst=100.64.43.118 protocol=tcp sport=54593 dport=30321 pattern: 1 all",
+        "observed_at": 1685766262
+      },
+      {
+        "lead_id": "2122fbfd-01c5-11ee-81a9-c37488301247",
+        "description": "Stealthwatch High Concern Index Alarm",
+        "product": "Stealthwatch",
+        "clientip": "100.64.39.112",
+        "clientport": 51715,
+        "serverip": "100.64.43.118",
+        "serverport": 5905,
+        "action": "block",
+        "protocol": 6,
+        "raw_message": "<134>Original Address=100.64.40.28 1 1685761309.433230403 M34_MX67C_Atlanta flows src=100.64.39.112 dst=100.64.43.118 protocol=tcp sport=51715 dport=5905 pattern: 1 all",
+        "observed_at": 1685765667
+      },
+      {
+        "lead_id": "2122fbfe-01c5-11ee-81a9-c37488301247",
+        "description": "Stealthwatch High Concern Index Alarm",
+        "product": "Stealthwatch",
+        "clientip": "100.64.39.112",
+        "clientport": 51715,
+        "serverip": "100.64.43.118",
+        "serverport": 5905,
+        "action": "block",
+        "protocol": 6,
+        "raw_message": "<134>Original Address=100.64.40.28 1 1685761309.433230403 M34_MX67C_Atlanta flows src=100.64.39.112 dst=100.64.43.118 protocol=tcp sport=51715 dport=5905 pattern: 1 all",
+        "observed_at": 1685765667
+      },
+      {
+        "lead_id": "b786551f-01d5-11ee-98d7-8b8dc43a94ec",
+        "description": "Stealthwatch High Concern Index Alarm",
+        "product": "Stealthwatch",
+        "clientip": "100.64.43.117",
+        "clientport": 42420,
+        "serverip": "100.64.43.118",
+        "serverport": 3549,
+        "action": "block",
+        "protocol": 6,
+        "raw_message": "<134>Original Address=100.64.40.28 1 1685769973.495995647 M34_MX67C_Atlanta flows src=100.64.43.117 dst=100.64.43.118 protocol=tcp sport=42420 dport=3549 pattern: 1 all",
+        "observed_at": 1685772791
+      },
+      {
+        "lead_id": "b7865520-01d5-11ee-98d7-8b8dc43a94ec",
+        "description": "Stealthwatch High Concern Index Alarm",
+        "product": "Stealthwatch",
+        "clientip": "100.64.43.117",
+        "clientport": 42420,
+        "serverip": "100.64.43.118",
+        "serverport": 3549,
+        "action": "block",
+        "protocol": 6,
+        "raw_message": "<134>Original Address=100.64.40.28 1 1685769973.495995647 M34_MX67C_Atlanta flows src=100.64.43.117 dst=100.64.43.118 protocol=tcp sport=42420 dport=3549 pattern: 1 all",
+        "observed_at": 1685772791
+      }
+    ]
+  },
+  {
+    "id": "25512200-01d5-11ee-8c41-374f8f3a6a1c",
+    "name": "Defiant Pike 233678",
+    "org": "ORG-0003",
+    "orgId": "ad7c603c-b730-4953-bd7b-e0d70396309b",
+    "mo_name": "Data Theft",
+    "suspicion_score": 0.859375,
+    "status_name": "Disrupted",
+    "first_observed_at": 1685740768,
+    "last_observed_at": 1685740768,
+    "tools": {
+      "1": {
+        "name": "Stealthwatch",
+        "vendor": "Cisco"
+      },
+      "87": {
+        "name": "FireEye Endpoint Security (HX Series)",
+        "vendor": "FireEye"
+      }
+    },
+    "nodes": {
+      "c3b51230-c7e7-11ed-9f7d-7b7de1f29f8f": {
+        "ip": "192.168.96.104",
+        "hostname": "192.168.96.104",
+        "internal": true,
+        "mac": "00A554CB1984"
+      },
+      "927c9c73-ab8a-11ed-a986-ab103e0fef8d": {
+        "ip": "100.64.43.120",
+        "hostname": "100.64.43.120",
+        "internal": false,
+        "mac": ""
+      }
+    },
+    "leads": [
+      {
+        "lead_id": "28595894-018b-11ee-9747-b5c581f370af",
+        "description": "Stealthwatch High Concern Index Alarm",
+        "product": "Stealthwatch",
+        "clientip": "192.168.96.104",
+        "clientport": 64813,
+        "serverip": "100.64.43.120",
+        "serverport": 443,
+        "action": "block",
+        "protocol": 6,
+        "raw_message": "<134>Original Address=192.168.92.29 1 1685736607.681514800 NORHQ_WAP_RECEPTION flows deny src=192.168.96.104 dst=100.64.43.120 mac=00:A5:54:CB:19:84 protocol=tcp sport=64813 dport=443",
+        "observed_at": 1685740768
+      },
+      {
+        "lead_id": "28595897-018b-11ee-9747-b5c581f370af",
+        "description": "FireEye HX Domain Match",
+        "product": "FireEye Endpoint Security (HX Series)",
+        "clientip": "192.168.96.104",
+        "clientport": 64813,
+        "serverip": "100.64.43.120",
+        "serverport": 443,
+        "action": "block",
+        "protocol": 6,
+        "raw_message": "<134>Original Address=192.168.92.29 1 1685736607.681514800 NORHQ_WAP_RECEPTION flows deny src=192.168.96.104 dst=100.64.43.120 mac=00:A5:54:CB:19:84 protocol=tcp sport=64813 dport=443",
+        "observed_at": 1685740768
+      },
+      {
+        "lead_id": "28595895-018b-11ee-9747-b5c581f370af",
+        "description": "Stealthwatch High Concern Index Alarm",
+        "product": "Stealthwatch",
+        "clientip": "192.168.96.104",
+        "clientport": 64813,
+        "serverip": "100.64.43.120",
+        "serverport": 443,
+        "action": "block",
+        "protocol": 6,
+        "raw_message": "<134>Original Address=192.168.92.29 1 1685736607.681514800 NORHQ_WAP_RECEPTION flows deny src=192.168.96.104 dst=100.64.43.120 mac=00:A5:54:CB:19:84 protocol=tcp sport=64813 dport=443",
+        "observed_at": 1685740768
+      },
+      {
+        "lead_id": "28595898-018b-11ee-9747-b5c581f370af",
+        "description": "FireEye HX Domain Match",
+        "product": "FireEye Endpoint Security (HX Series)",
+        "clientip": "192.168.96.104",
+        "clientport": 64813,
+        "serverip": "100.64.43.120",
+        "serverport": 443,
+        "action": "block",
+        "protocol": 6,
+        "raw_message": "<134>Original Address=192.168.92.29 1 1685736607.681514800 NORHQ_WAP_RECEPTION flows deny src=192.168.96.104 dst=100.64.43.120 mac=00:A5:54:CB:19:84 protocol=tcp sport=64813 dport=443",
+        "observed_at": 1685740768
+      }
+    ]
+  },
+  {
+    "id": "25687a90-01d5-11ee-8c41-374f8f3a6a1c",
+    "name": "Jittery Vulture 233678",
+    "org": "ORG-0003",
+    "orgId": "ad7c603c-b730-4953-bd7b-e0d70396309b",
+    "mo_name": "Data Theft",
+    "suspicion_score": 0.71875,
+    "status_name": "Disrupted",
+    "first_observed_at": 1685740768,
+    "last_observed_at": 1685772514,
+    "tools": {
+      "1": {
+        "name": "Stealthwatch",
+        "vendor": "Cisco"
+      }
+    },
+    "nodes": {
+      "50786520-016b-11ee-a9f4-c9b583e3f68f": {
+        "ip": "100.64.42.192",
+        "hostname": "100.64.42.192",
+        "internal": false,
+        "mac": ""
+      },
+      "86b315f0-9d88-11ed-98f8-cd6642d241c0": {
+        "ip": "100.64.43.121",
+        "hostname": "100.64.43.121",
+        "internal": true,
+        "mac": ""
+      },
+      "97862d73-b234-11ed-b943-8d0c18078182": {
+        "ip": "100.64.43.122",
+        "hostname": "100.64.43.122",
+        "internal": false,
+        "mac": ""
+      }
+    },
+    "leads": [
+      {
+        "lead_id": "285958a9-018b-11ee-9747-b5c581f370af",
+        "description": "Stealthwatch High Concern Index Alarm",
+        "product": "Stealthwatch",
+        "clientip": "100.64.42.192",
+        "clientport": 42840,
+        "serverip": "100.64.43.121",
+        "serverport": 4010,
+        "action": "block",
+        "protocol": 6,
+        "raw_message": "<134>Original Address=100.64.43.121 1 1685736607.581791921 M29_MX67C_CR_Northbrook flows src=100.64.42.192 dst=100.64.43.121 protocol=tcp sport=42840 dport=4010 pattern: 1 all",
+        "observed_at": 1685740768
+      },
+      {
+        "lead_id": "285958aa-018b-11ee-9747-b5c581f370af",
+        "description": "Stealthwatch High Concern Index Alarm",
+        "product": "Stealthwatch",
+        "clientip": "100.64.42.192",
+        "clientport": 42840,
+        "serverip": "100.64.43.121",
+        "serverport": 4010,
+        "action": "block",
+        "protocol": 6,
+        "raw_message": "<134>Original Address=100.64.43.121 1 1685736607.581791921 M29_MX67C_CR_Northbrook flows src=100.64.42.192 dst=100.64.43.121 protocol=tcp sport=42840 dport=4010 pattern: 1 all",
+        "observed_at": 1685740768
+      },
+      {
+        "lead_id": "123d8eb1-01d5-11ee-8142-9b6924bf38a1",
+        "description": "Stealthwatch High Concern Index Alarm",
+        "product": "Stealthwatch",
+        "clientip": "100.64.43.122",
+        "clientport": 48866,
+        "serverip": "100.64.43.121",
+        "serverport": 6666,
+        "action": "block",
+        "protocol": 6,
+        "raw_message": "<134>Original Address=100.64.43.121 1 1685768476.296340901 M29_MX67C_CR_Northbrook flows src=100.64.43.122 dst=100.64.43.121 protocol=tcp sport=48866 dport=6666 pattern: 1 all",
+        "observed_at": 1685772514
+      },
+      {
+        "lead_id": "123d8eb2-01d5-11ee-8142-9b6924bf38a1",
+        "description": "Stealthwatch High Concern Index Alarm",
+        "product": "Stealthwatch",
+        "clientip": "100.64.43.122",
+        "clientport": 48866,
+        "serverip": "100.64.43.121",
+        "serverport": 6666,
+        "action": "block",
+        "protocol": 6,
+        "raw_message": "<134>Original Address=100.64.43.121 1 1685768476.296340901 M29_MX67C_CR_Northbrook flows src=100.64.43.122 dst=100.64.43.121 protocol=tcp sport=48866 dport=6666 pattern: 1 all",
+        "observed_at": 1685772514
+      }
+    ]
+  },
+  {
+    "id": "2754e140-01d5-11ee-8c41-374f8f3a6a1c",
+    "name": "High Panda 233678",
+    "org": "ORG-0003",
+    "orgId": "ad7c603c-b730-4953-bd7b-e0d70396309b",
+    "mo_name": "Data Theft",
+    "suspicion_score": 0.7890625,
+    "status_name": "Disrupted",
+    "first_observed_at": 1685728507,
+    "last_observed_at": 1685756332,
+    "tools": {
+      "1": {
+        "name": "Stealthwatch",
+        "vendor": "Cisco"
+      }
+    },
+    "nodes": {
+      "11e62e70-01aa-11ee-bd99-09c4bed274c2": {
+        "ip": "100.64.43.123",
+        "hostname": "100.64.43.123",
+        "internal": false,
+        "mac": ""
+      },
+      "d9f1a261-9d8b-11ed-9ba1-69c845a45d44": {
+        "ip": "100.64.43.124",
+        "hostname": "100.64.43.124",
+        "internal": false,
+        "mac": ""
+      },
+      "943c5cf0-f50c-11ed-8e56-096f1a37084c": {
+        "ip": "100.64.39.133",
+        "hostname": "100.64.39.133",
+        "internal": false,
+        "mac": ""
+      },
+      "4419bc12-f541-11ed-8243-59b3d27497fc": {
+        "ip": "100.64.34.88",
+        "hostname": "100.64.34.88",
+        "internal": false,
+        "mac": ""
+      },
+      "2c113b01-f557-11ed-b3ba-efb8dc109001": {
+        "ip": "100.64.34.197",
+        "hostname": "100.64.34.197",
+        "internal": false,
+        "mac": ""
+      }
+    },
+    "leads": [
+      {
+        "lead_id": "6553a83a-01af-11ee-bd99-09c4bed274c2",
+        "description": "Stealthwatch High Concern Index Alarm",
+        "product": "Stealthwatch",
+        "clientip": "100.64.43.123",
+        "clientport": 42306,
+        "serverip": "100.64.43.124",
+        "serverport": 22,
+        "action": "block",
+        "protocol": 6,
+        "raw_message": "<134>Original Address=100.64.39.161 1 1685750823.607250813 M52_MX67C_Loxley flows src=100.64.43.123 dst=100.64.43.124 protocol=tcp sport=42306 dport=22 pattern: 1 all",
+        "observed_at": 1685756332
+      },
+      {
+        "lead_id": "6553a83b-01af-11ee-bd99-09c4bed274c2",
+        "description": "Stealthwatch High Concern Index Alarm",
+        "product": "Stealthwatch",
+        "clientip": "100.64.43.123",
+        "clientport": 42306,
+        "serverip": "100.64.43.124",
+        "serverport": 22,
+        "action": "block",
+        "protocol": 6,
+        "raw_message": "<134>Original Address=100.64.39.161 1 1685750823.607250813 M52_MX67C_Loxley flows src=100.64.43.123 dst=100.64.43.124 protocol=tcp sport=42306 dport=22 pattern: 1 all",
+        "observed_at": 1685756332
+      },
+      {
+        "lead_id": "a063c9d6-0180-11ee-88a5-f1b0a86efcb6",
+        "description": "Stealthwatch High Concern Index Alarm",
+        "product": "Stealthwatch",
+        "clientip": "100.64.39.133",
+        "clientport": 51642,
+        "serverip": "100.64.43.124",
+        "serverport": 9561,
+        "action": "block",
+        "protocol": 6,
+        "raw_message": "<134>Original Address=100.64.39.161 1 1685731576.848585860 M52_MX67C_Loxley flows src=100.64.39.133 dst=100.64.43.124 protocol=tcp sport=51642 dport=9561 pattern: 1 all",
+        "observed_at": 1685736245
+      },
+      {
+        "lead_id": "a063c9d7-0180-11ee-88a5-f1b0a86efcb6",
+        "description": "Stealthwatch High Concern Index Alarm",
+        "product": "Stealthwatch",
+        "clientip": "100.64.39.133",
+        "clientport": 51642,
+        "serverip": "100.64.43.124",
+        "serverport": 9561,
+        "action": "block",
+        "protocol": 6,
+        "raw_message": "<134>Original Address=100.64.39.161 1 1685731576.848585860 M52_MX67C_Loxley flows src=100.64.39.133 dst=100.64.43.124 protocol=tcp sport=51642 dport=9561 pattern: 1 all",
+        "observed_at": 1685736245
+      },
+      {
+        "lead_id": "9c892cf2-016e-11ee-b815-89b1be529884",
+        "description": "Stealthwatch High Concern Index Alarm",
+        "product": "Stealthwatch",
+        "clientip": "100.64.34.88",
+        "clientport": 50687,
+        "serverip": "100.64.43.124",
+        "serverport": 9831,
+        "action": "block",
+        "protocol": 6,
+        "raw_message": "<134>Original Address=100.64.39.161 1 1685727679.817512503 M52_MX67C_Loxley flows src=100.64.34.88 dst=100.64.43.124 protocol=tcp sport=50687 dport=9831 pattern: 1 all",
+        "observed_at": 1685728507
+      },
+      {
+        "lead_id": "9c892cf3-016e-11ee-b815-89b1be529884",
+        "description": "Stealthwatch High Concern Index Alarm",
+        "product": "Stealthwatch",
+        "clientip": "100.64.34.88",
+        "clientport": 50687,
+        "serverip": "100.64.43.124",
+        "serverport": 9831,
+        "action": "block",
+        "protocol": 6,
+        "raw_message": "<134>Original Address=100.64.39.161 1 1685727679.817512503 M52_MX67C_Loxley flows src=100.64.34.88 dst=100.64.43.124 protocol=tcp sport=50687 dport=9831 pattern: 1 all",
+        "observed_at": 1685728507
+      },
+      {
+        "lead_id": "bdc59036-018a-11ee-8da7-3deb20b198ef",
+        "description": "Stealthwatch High Concern Index Alarm",
+        "product": "Stealthwatch",
+        "clientip": "100.64.34.197",
+        "clientport": 52225,
+        "serverip": "100.64.43.124",
+        "serverport": 46874,
+        "action": "block",
+        "protocol": 6,
+        "raw_message": "<134>Original Address=100.64.39.161 1 1685736492.048427099 M52_MX67C_Loxley flows src=100.64.34.197 dst=100.64.43.124 protocol=tcp sport=52225 dport=46874 pattern: 1 all",
+        "observed_at": 1685740589
+      },
+      {
+        "lead_id": "bdc59037-018a-11ee-8da7-3deb20b198ef",
+        "description": "Stealthwatch High Concern Index Alarm",
+        "product": "Stealthwatch",
+        "clientip": "100.64.34.197",
+        "clientport": 52225,
+        "serverip": "100.64.43.124",
+        "serverport": 46874,
+        "action": "block",
+        "protocol": 6,
+        "raw_message": "<134>Original Address=100.64.39.161 1 1685736492.048427099 M52_MX67C_Loxley flows src=100.64.34.197 dst=100.64.43.124 protocol=tcp sport=52225 dport=46874 pattern: 1 all",
+        "observed_at": 1685740589
+      }
+    ]
+  },
+  {
+    "id": "2ae4bec0-01d5-11ee-8c41-374f8f3a6a1c",
+    "name": "Vexed Wildebeest 233678",
+    "org": "ORG-0003",
+    "orgId": "ad7c603c-b730-4953-bd7b-e0d70396309b",
+    "mo_name": "Data Theft",
+    "suspicion_score": 0.7890625,
+    "status_name": "Disrupted",
+    "first_observed_at": 1685772550,
+    "last_observed_at": 1685772791,
+    "tools": {
+      "1": {
+        "name": "Stealthwatch",
+        "vendor": "Cisco"
+      }
+    },
+    "nodes": {
+      "9cc0aa34-9d9a-11ed-9840-cf13fb390d2c": {
+        "ip": "100.64.43.125",
+        "hostname": "100.64.43.125",
+        "internal": false,
+        "mac": ""
+      },
+      "d6f09ec0-9d88-11ed-98f8-cd6642d241c0": {
+        "ip": "100.64.43.126",
+        "hostname": "100.64.43.126",
+        "internal": false,
+        "mac": ""
+      },
+      "e94570e3-a365-11ed-a47c-9b5d76b87bfc": {
+        "ip": "100.64.43.127",
+        "hostname": "100.64.43.127",
+        "internal": false,
+        "mac": ""
+      }
+    },
+    "leads": [
+      {
+        "lead_id": "282ec68a-01d5-11ee-9a5b-0120e54c641d",
+        "description": "Stealthwatch High Concern Index Alarm",
+        "product": "Stealthwatch",
+        "clientip": "100.64.43.125",
+        "clientport": 42497,
+        "serverip": "100.64.43.126",
+        "serverport": 13120,
+        "action": "block",
+        "protocol": 6,
+        "raw_message": "<134>Original Address=100.64.41.191 1 1685770956.047226921 M38_MX67C_Conyers flows src=100.64.43.125 dst=100.64.43.126 protocol=tcp sport=42497 dport=13120 pattern: 1 all",
+        "observed_at": 1685772550
+      },
+      {
+        "lead_id": "282ec68b-01d5-11ee-9a5b-0120e54c641d",
+        "description": "Stealthwatch High Concern Index Alarm",
+        "product": "Stealthwatch",
+        "clientip": "100.64.43.125",
+        "clientport": 42497,
+        "serverip": "100.64.43.126",
+        "serverport": 13120,
+        "action": "block",
+        "protocol": 6,
+        "raw_message": "<134>Original Address=100.64.41.191 1 1685770956.047226921 M38_MX67C_Conyers flows src=100.64.43.125 dst=100.64.43.126 protocol=tcp sport=42497 dport=13120 pattern: 1 all",
+        "observed_at": 1685772550
+      },
+      {
+        "lead_id": "b7862df1-01d5-11ee-98d7-8b8dc43a94ec",
+        "description": "Stealthwatch High Concern Index Alarm",
+        "product": "Stealthwatch",
+        "clientip": "100.64.43.127",
+        "clientport": 41027,
+        "serverip": "100.64.43.126",
+        "serverport": 2222,
+        "action": "block",
+        "protocol": 6,
+        "raw_message": "<134>Original Address=100.64.41.191 1 1685769973.878138881 M38_MX67C_Conyers flows src=100.64.43.127 dst=100.64.43.126 protocol=tcp sport=41027 dport=2222 pattern: 1 all",
+        "observed_at": 1685772791
+      },
+      {
+        "lead_id": "b7862df2-01d5-11ee-98d7-8b8dc43a94ec",
+        "description": "Stealthwatch High Concern Index Alarm",
+        "product": "Stealthwatch",
+        "clientip": "100.64.43.127",
+        "clientport": 41027,
+        "serverip": "100.64.43.126",
+        "serverport": 2222,
+        "action": "block",
+        "protocol": 6,
+        "raw_message": "<134>Original Address=100.64.41.191 1 1685769973.878138881 M38_MX67C_Conyers flows src=100.64.43.127 dst=100.64.43.126 protocol=tcp sport=41027 dport=2222 pattern: 1 all",
+        "observed_at": 1685772791
+      }
+    ]
+  },
+  {
+    "id": "2b00ab30-01d5-11ee-8c41-374f8f3a6a1c",
+    "name": "Healthy Tiger 233678",
+    "org": "ORG-0003",
+    "orgId": "ad7c603c-b730-4953-bd7b-e0d70396309b",
+    "mo_name": "Data Theft",
+    "suspicion_score": 0.7890625,
+    "status_name": "Disrupted",
+    "first_observed_at": 1685755850,
+    "last_observed_at": 1685772699,
+    "tools": {
+      "1": {
+        "name": "Stealthwatch",
+        "vendor": "Cisco"
+      }
+    },
+    "nodes": {
+      "b1f8ea03-a102-11ed-993e-73c3beae7bd5": {
+        "ip": "100.64.43.128",
+        "hostname": "100.64.43.128",
+        "internal": false,
+        "mac": ""
+      },
+      "0cf3c271-9d8b-11ed-9ba1-69c845a45d44": {
+        "ip": "100.64.43.129",
+        "hostname": "100.64.43.129",
+        "internal": false,
+        "mac": ""
+      },
+      "3248c671-016c-11ee-a11d-8fea3ba4affb": {
+        "ip": "100.64.43.130",
+        "hostname": "100.64.43.130",
+        "internal": false,
+        "mac": ""
+      },
+      "1901dec1-f97b-11ed-b4c9-cb1d93e9067a": {
+        "ip": "100.64.43.131",
+        "hostname": "100.64.43.131",
+        "internal": false,
+        "mac": ""
+      }
+    },
+    "leads": [
+      {
+        "lead_id": "282eed94-01d5-11ee-9a5b-0120e54c641d",
+        "description": "Stealthwatch High Concern Index Alarm",
+        "product": "Stealthwatch",
+        "clientip": "100.64.43.128",
+        "clientport": 56419,
+        "serverip": "100.64.43.129",
+        "serverport": 7473,
+        "action": "block",
+        "protocol": 6,
+        "raw_message": "<134>Original Address=100.64.45.251 1 1685770956.024554856 M58_MX67_FtWalton flows src=100.64.43.128 dst=100.64.43.129 protocol=tcp sport=56419 dport=7473 pattern: 1 all",
+        "observed_at": 1685772550
+      },
+      {
+        "lead_id": "282eed95-01d5-11ee-9a5b-0120e54c641d",
+        "description": "Stealthwatch High Concern Index Alarm",
+        "product": "Stealthwatch",
+        "clientip": "100.64.43.128",
+        "clientport": 56419,
+        "serverip": "100.64.43.129",
+        "serverport": 7473,
+        "action": "block",
+        "protocol": 6,
+        "raw_message": "<134>Original Address=100.64.45.251 1 1685770956.024554856 M58_MX67_FtWalton flows src=100.64.43.128 dst=100.64.43.129 protocol=tcp sport=56419 dport=7473 pattern: 1 all",
+        "observed_at": 1685772550
+      },
+      {
+        "lead_id": "80e92966-01d5-11ee-98d7-8b8dc43a94ec",
+        "description": "Stealthwatch High Concern Index Alarm",
+        "product": "Stealthwatch",
+        "clientip": "100.64.43.130",
+        "clientport": 55588,
+        "serverip": "100.64.43.129",
+        "serverport": 12745,
+        "action": "block",
+        "protocol": 6,
+        "raw_message": "<134>Original Address=100.64.45.251 1 1685769744.885607948 M58_MX67_FtWalton flows src=100.64.43.130 dst=100.64.43.129 protocol=tcp sport=55588 dport=12745 pattern: 1 all",
+        "observed_at": 1685772699
+      },
+      {
+        "lead_id": "80e92967-01d5-11ee-98d7-8b8dc43a94ec",
+        "description": "Stealthwatch High Concern Index Alarm",
+        "product": "Stealthwatch",
+        "clientip": "100.64.43.130",
+        "clientport": 55588,
+        "serverip": "100.64.43.129",
+        "serverport": 12745,
+        "action": "block",
+        "protocol": 6,
+        "raw_message": "<134>Original Address=100.64.45.251 1 1685769744.885607948 M58_MX67_FtWalton flows src=100.64.43.130 dst=100.64.43.129 protocol=tcp sport=55588 dport=12745 pattern: 1 all",
+        "observed_at": 1685772699
+      },
+      {
+        "lead_id": "45d68cd2-01ae-11ee-b678-b5ace398ccbd",
+        "description": "Stealthwatch High Concern Index Alarm",
+        "product": "Stealthwatch",
+        "clientip": "100.64.43.131",
+        "clientport": 48256,
+        "serverip": "100.64.43.129",
+        "serverport": 4022,
+        "action": "block",
+        "protocol": 6,
+        "raw_message": "<134>Original Address=100.64.45.251 1 1685750537.830043506 M58_MX67_FtWalton flows src=100.64.43.131 dst=100.64.43.129 protocol=tcp sport=48256 dport=4022 pattern: 1 all",
+        "observed_at": 1685755850
+      },
+      {
+        "lead_id": "45d68cd3-01ae-11ee-b678-b5ace398ccbd",
+        "description": "Stealthwatch High Concern Index Alarm",
+        "product": "Stealthwatch",
+        "clientip": "100.64.43.131",
+        "clientport": 48256,
+        "serverip": "100.64.43.129",
+        "serverport": 4022,
+        "action": "block",
+        "protocol": 6,
+        "raw_message": "<134>Original Address=100.64.45.251 1 1685750537.830043506 M58_MX67_FtWalton flows src=100.64.43.131 dst=100.64.43.129 protocol=tcp sport=48256 dport=4022 pattern: 1 all",
+        "observed_at": 1685755850
+      }
+    ]
+  },
+  {
+    "id": "2ca3acd0-01d5-11ee-8c41-374f8f3a6a1c",
+    "name": "Old-fashioned Stingray 233678",
+    "org": "ORG-0003",
+    "orgId": "ad7c603c-b730-4953-bd7b-e0d70396309b",
+    "mo_name": "Data Theft",
+    "suspicion_score": 0.87625,
+    "status_name": "Disrupted",
+    "first_observed_at": 1685743045,
+    "last_observed_at": 1685743045,
+    "tools": {
+      "1": {
+        "name": "Stealthwatch",
+        "vendor": "Cisco"
+      }
+    },
+    "nodes": {
+      "2c2e7fd0-9d9b-11ed-9840-cf13fb390d2c": {
+        "ip": "100.64.41.216",
+        "hostname": "100.64.41.216",
+        "internal": false,
+        "mac": ""
+      },
+      "b3d2f221-9d89-11ed-98f8-cd6642d241c0": {
+        "ip": "100.64.43.132",
+        "hostname": "100.64.43.132",
+        "internal": false,
+        "mac": ""
+      }
+    },
+    "leads": [
+      {
+        "lead_id": "75e3dd11-0190-11ee-a942-91a380ff8783",
+        "description": "Stealthwatch High Concern Index Alarm",
+        "product": "Stealthwatch",
+        "clientip": "100.64.41.216",
+        "clientport": 40414,
+        "serverip": "100.64.43.132",
+        "serverport": 12344,
+        "action": "block",
+        "protocol": 6,
+        "raw_message": "<134>Original Address=100.64.41.191 1 1685740961.588717248 M38_MX67C_Conyers flows src=100.64.41.216 dst=100.64.43.132 protocol=tcp sport=40414 dport=12344 pattern: 1 all",
+        "observed_at": 1685743045
+      },
+      {
+        "lead_id": "75e3dd12-0190-11ee-a942-91a380ff8783",
+        "description": "Stealthwatch High Concern Index Alarm",
+        "product": "Stealthwatch",
+        "clientip": "100.64.41.216",
+        "clientport": 40414,
+        "serverip": "100.64.43.132",
+        "serverport": 12344,
+        "action": "block",
+        "protocol": 6,
+        "raw_message": "<134>Original Address=100.64.41.191 1 1685740961.588717248 M38_MX67C_Conyers flows src=100.64.41.216 dst=100.64.43.132 protocol=tcp sport=40414 dport=12344 pattern: 1 all",
+        "observed_at": 1685743045
+      }
+    ]
+  }
+]

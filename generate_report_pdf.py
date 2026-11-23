@@ -47,7 +47,7 @@ class AcademicNumberedCanvas(canvas.Canvas):
         # Footer
         footer_text = f"Halaman {self._pageNumber} dari {page_count}"
         self.drawRightString(558, 40, footer_text)
-        self.drawString(54, 40, "Dzul Ikram A.S. Sambaiyang | https://github.com/Dzul-Ikram/UTS-Threat-hunting")
+        self.drawString(54, 40, "Dzul Ikram A.S. Sambaiyang | https://github.com/Dzul-Ikram/UTS-ThreatHunting")
         self.setStrokeColor(colors.HexColor("#cbd5e1"))
         self.setLineWidth(0.5)
         self.line(54, 50, 558, 50)
@@ -582,8 +582,9 @@ def generate_academic_pdf():
 
     demo_text = (
         "<b>Tautan Demo & Bukti Reproduktibilitas Analisis:</b><br/>"
-        "• <b>Repository GitHub:</b> <a href='https://github.com/Dzul-Ikram/UTS-Threat-hunting'>https://github.com/Dzul-Ikram/UTS-Threat-hunting</a><br/>"
-        "• <b>Live Interactive Dashboard (GitHub Pages):</b> <a href='https://dzul-ikram.github.io/UTS-Threat-hunting/'>https://dzul-ikram.github.io/UTS-Threat-hunting/</a><br/>"
+        "• <b>Google Colab Demo:</b> <a href='https://colab.research.google.com/drive/1ys4l468E6lEuRepVZIOlKEUzR-kNK1LJ'>https://colab.research.google.com/drive/1ys4l468E6lEuRepVZIOlKEUzR-kNK1LJ</a><br/>"
+        "• <b>Repository GitHub:</b> <a href='https://github.com/Dzul-Ikram/UTS-ThreatHunting'>https://github.com/Dzul-Ikram/UTS-ThreatHunting</a><br/>"
+        "• <b>Live Interactive Dashboard (GitHub Pages):</b> <a href='https://dzul-ikram.github.io/UTS-ThreatHunting/'>https://dzul-ikram.github.io/UTS-ThreatHunting/</a><br/>"
         "• <b>Jupyter Notebook Reproduksi:</b> <font face='Courier'>Threat_Hunting_Investigation.ipynb</font> (tersedia di repository untuk verifikasi kueri dan ekstraksi data secara langsung).<br/>"
         "<i>Dashboard interaktif menyajikan visualisasi timeline forensik, distribusi telemetri, matriks MITRE ATT&CK, dan kueri analitik.</i>"
     )

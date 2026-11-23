@@ -2,8 +2,9 @@
 **Studi Kasus:** WitFoo Precinct 6 Enterprise SOC Telemetry (Coordinated Campaign 233678)  
 **Institusi:** Program Studi S1 Teknik Komputer, Fakultas Ilmu Komputer, Universitas Amikom Yogyakarta  
 **Peneliti:** Dzul-Ikram  
-**Repository GitHub:** [https://github.com/Dzul-Ikram/UTS-Threat-hunting](https://github.com/Dzul-Ikram/UTS-Threat-hunting)  
-**Live Web Dashboard (GitHub Pages):** [https://dzul-ikram.github.io/UTS-Threat-hunting/](https://dzul-ikram.github.io/UTS-Threat-hunting/)  
+**Repository GitHub:** [https://github.com/Dzul-Ikram/UTS-ThreatHunting](https://github.com/Dzul-Ikram/UTS-ThreatHunting)  
+**Live Web Dashboard (GitHub Pages):** [https://dzul-ikram.github.io/UTS-ThreatHunting/](https://dzul-ikram.github.io/UTS-ThreatHunting/)  
+**Google Colab Notebook:** [https://colab.research.google.com/drive/1ys4l468E6lEuRepVZIOlKEUzR-kNK1LJ](https://colab.research.google.com/drive/1ys4l468E6lEuRepVZIOlKEUzR-kNK1LJ)  
 **Dataset Source:** [witfoo/precinct6-cybersecurity](https://huggingface.co/datasets/witfoo/precinct6-cybersecurity)
 
 ---
@@ -180,7 +181,9 @@ HAVING COUNT(DISTINCT dst_ip) >= 5;
 ---
 
 ## 🔗 Tautan Demo & Verifikasi
-- **Repository GitHub:** [https://github.com/Dzul-Ikram/UTS-Threat-hunting](https://github.com/Dzul-Ikram/UTS-Threat-hunting)
-- **Live Web Dashboard (GitHub Pages):** [https://dzul-ikram.github.io/UTS-Threat-hunting/](https://dzul-ikram.github.io/UTS-Threat-hunting/)
-- **Jupyter Notebook Reproduksi:** [`Threat_Hunting_Investigation.ipynb`](file:///d:/threat%20hunting/Threat_Hunting_Investigation.ipynb)
-- **Unduh Laporan PDF:** [`Laporan_Threat_Hunting_Ujian.pdf`](file:///d:/threat%20hunting/Laporan_Threat_Hunting_Ujian.pdf)
+- **Google Colab Notebook:** [https://colab.research.google.com/drive/1ys4l468E6lEuRepVZIOlKEUzR-kNK1LJ](https://colab.research.google.com/drive/1ys4l468E6lEuRepVZIOlKEUzR-kNK1LJ)  
+  *(Alternatif 1-Click Run langsung dari GitHub: [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Dzul-Ikram/UTS-ThreatHunting/blob/main/Threat_Hunting_Investigation.ipynb))*
+- **Repository GitHub:** [https://github.com/Dzul-Ikram/UTS-ThreatHunting](https://github.com/Dzul-Ikram/UTS-ThreatHunting)
+- **Live Web Dashboard (GitHub Pages):** [https://dzul-ikram.github.io/UTS-ThreatHunting/](https://dzul-ikram.github.io/UTS-ThreatHunting/)
+- **Jupyter Notebook Reproduksi:** [`Threat_Hunting_Investigation.ipynb`](Threat_Hunting_Investigation.ipynb)
+- **Unduh Laporan PDF:** [`Laporan_Threat_Hunting_Ujian.pdf`](Laporan_Threat_Hunting_Ujian.pdf)
