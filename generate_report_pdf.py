@@ -4,7 +4,7 @@ from reportlab.lib.pagesizes import letter
 from reportlab.lib import colors
 from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
 from reportlab.platypus import (
-    SimpleDocTemplate, Paragraph, Spacer, Table, TableStyle, PageBreak, Image, KeepTogether, HRFlowable
+    SimpleDocTemplate, Paragraph, Spacer, Table, TableStyle, PageBreak, Image, HRFlowable
 )
 from reportlab.pdfgen import canvas
 
@@ -112,10 +112,10 @@ def generate_academic_pdf():
         'SecTitle',
         parent=styles['Normal'],
         fontName='Times-Bold',
-        fontSize=12,
-        leading=16,
+        fontSize=11.5,
+        leading=15,
         textColor=colors.black,
-        spaceBefore=14,
+        spaceBefore=0,
         spaceAfter=6
     )
 
@@ -123,37 +123,32 @@ def generate_academic_pdf():
         'SubSecTitle',
         parent=styles['Normal'],
         fontName='Times-Bold',
-        fontSize=10.5,
-        leading=14,
+        fontSize=10,
+        leading=13.5,
         textColor=colors.HexColor("#0f172a"),
-        spaceBefore=8,
-        spaceAfter=4
+        spaceBefore=5,
+        spaceAfter=3
     )
 
     body_style = ParagraphStyle(
         'AcademicBody',
         parent=styles['Normal'],
         fontName='Times-Roman',
-        fontSize=9.5,
-        leading=13.5,
+        fontSize=9,
+        leading=12.5,
         textColor=colors.HexColor("#1e293b"),
         alignment=4, # Justified
-        spaceAfter=6
+        spaceAfter=5
     )
 
-    body_bold = ParagraphStyle(
-        'AcademicBodyBold',
-        parent=body_style,
-        fontName='Times-Bold'
-    )
-
-    code_style = ParagraphStyle(
-        'AcademicCode',
+    code_block_style = ParagraphStyle(
+        'AcademicCodeBlock',
         parent=styles['Normal'],
         fontName='Courier',
-        fontSize=8,
-        leading=10.5,
-        textColor=colors.HexColor("#0f172a")
+        fontSize=7.5,
+        leading=9.5,
+        textColor=colors.HexColor("#0f172a"),
+        spaceAfter=4
     )
 
     th_style = ParagraphStyle(
@@ -161,7 +156,7 @@ def generate_academic_pdf():
         parent=styles['Normal'],
         fontName='Times-Bold',
         fontSize=8,
-        leading=10.5,
+        leading=10,
         alignment=1, # Center
         textColor=colors.HexColor("#0f172a")
     )
@@ -170,8 +165,8 @@ def generate_academic_pdf():
         'AcademicTD',
         parent=styles['Normal'],
         fontName='Times-Roman',
-        fontSize=8,
-        leading=10.5,
+        fontSize=7.5,
+        leading=9.5,
         textColor=colors.HexColor("#1e293b")
     )
 
@@ -179,8 +174,8 @@ def generate_academic_pdf():
         'AcademicTDCode',
         parent=styles['Normal'],
         fontName='Courier',
-        fontSize=7.5,
-        leading=9.5,
+        fontSize=7,
+        leading=9,
         textColor=colors.HexColor("#0f172a")
     )
 
@@ -212,50 +207,29 @@ def generate_academic_pdf():
     story.append(Paragraph("YOGYAKARTA", cover_inst_style))
     story.append(Paragraph("2026", cover_inst_style))
 
-    # Pagebreak to start actual content on Page 2
+    # Selesai Halaman 1
     story.append(PageBreak())
 
     # =========================================================================
-    # HALAMAN 2: LAPORAN ANALISIS THREAT HUNTING
+    # HALAMAN 2: SOAL 1 (ANALISIS LANDSCAPE & ATTACK LIFECYCLE)
     # =========================================================================
+    story.append(Paragraph("<b>1. Analisis Landscape pada Kasus yang Diberikan</b>", sec_title_style))
+    story.append(HRFlowable(width="100%", thickness=0.8, color=colors.HexColor("#334155"), spaceAfter=8))
     
-    # Header Dokumen
-    story.append(Paragraph("<b>LAPORAN HASIL THREAT HUNTING TELEMETRI ENTERPRISE</b>", ParagraphStyle(
-        'DocHeader', parent=styles['Normal'], fontName='Times-Bold', fontSize=13, leading=17, alignment=1, spaceAfter=2
-    )))
-    story.append(Paragraph("Studi Kasus: WitFoo Precinct 6 Enterprise SOC Telemetry (Campaign Partition 233678)", ParagraphStyle(
-        'DocSub', parent=styles['Normal'], fontName='Times-Italic', fontSize=10, leading=14, alignment=1, spaceAfter=10, textColor=colors.HexColor("#475569")
-    )))
-    story.append(HRFlowable(width="100%", thickness=1, color=colors.HexColor("#334155"), spaceAfter=10))
-
-    # Executive Summary
-    story.append(Paragraph("<b>Executive Summary</b>", subsec_title_style))
-    exec_summary_text = (
-        "Investigasi threat hunting berbasis hipotesis (*hypothesis-based threat hunting*) dilakukan terhadap dataset "
-        "telemetri enterprise riil <b>WitFoo Precinct 6</b> yang mencakup 2.250.185 sinyal keamanan dari 158 tools SOC. "
-        "Hasil investigasi berhasil mengungkap kampanye <b>Data Theft terkoordinasi (Partisi 233678)</b> pada tenant <b>ORG-0003</b>. "
-        "Insiden kunci berpusat pada <b>25512200-01d5-11ee-8c41-374f8f3a6a1c (Defiant Pike 233678)</b> dengan skor kecurigaan tertinggi "
-        "<b>0.859 (85.9%)</b>. Host internal <b>192.168.96.104</b> (resepsionis nirkabel NORHQ) terdeteksi melakukan koneksi C2 keluar "
-        "menuju IP eksternal <b>100.64.43.120:443</b>. Korelasi silang antara <b>FireEye Endpoint Security (HX Series)</b> "
-        "(rule: <i>FireEye HX Domain Match</i>) dan <b>Cisco Stealthwatch NDR</b> (rule: <i>Stealthwatch High Concern Index Alarm</i>) "
-        "membuktikan adanya aktivitas transmisi data abnormal dan komunikasi domain jahat, yang terjadi serentak dengan pemindaian lateral di cabang Loxley, Atlanta, Conyers, dan Northbrook."
+    soal1_intro = (
+        "Berdasarkan analisis empiris telemetri SOC enterprise <b>WitFoo Precinct 6</b> pada tenant <b>ORG-0003</b>, "
+        "teridentifikasi kampanye serangan terkoordinasi <b>Data Theft (Partisi 233678)</b> yang menargetkan workstation internal "
+        "dan gateway cabang. Profiling ancaman dikarakterisasi sebagai berikut:"
     )
-    story.append(Paragraph(exec_summary_text, body_style))
-    story.append(Spacer(1, 6))
-
-    # SOAL 1
-    story.append(Paragraph("1. Analisis Landscape Studi Kasus & Attack Lifecycle (Bobot: 15 Poin)", sec_title_style))
-    story.append(Paragraph(
-        "Berdasarkan analisis empiris terhadap telemetri dataset WitFoo Precinct 6, landscape ancaman dikarakterisasi sebagai berikut:",
-        body_style
-    ))
+    story.append(Paragraph(soal1_intro, body_style))
+    story.append(Spacer(1, 4))
 
     # Tabel Profil Landscape (Lebar total: 504 pt)
     landscape_table_data = [
         [Paragraph("Komponen Landscape", th_style), Paragraph("Karakteristik & Analisis Evidence", th_style)],
         [
             Paragraph("<b>Threat Actor</b>", td_style),
-            Paragraph("Financially Motivated Cybercrime Group / Initial Access Broker (IAB). Karakteristik sindikat kejahatan siber yang menargetkan kompromi perimeter web dan workstation enterprise untuk pencurian data dan monetisasi infrastruktur korban (SEO spam/judi online redirect).", td_style)
+            Paragraph("Financially Motivated Cybercrime Group / Initial Access Broker (IAB). Karakteristik sindikat kejahatan siber yang menargetkan kompromi perimeter web dan workstation enterprise untuk pencurian data dan monetisasi akses (SEO spam/judi online redirect).", td_style)
         ],
         [
             Paragraph("<b>Motivasi</b>", td_style),
@@ -266,7 +240,7 @@ def generate_academic_pdf():
             Paragraph("Tingkat Menengah ke Atas (Capable/Advanced). Menguasai saluran C2 dinamis terenkripsi HTTPS (port 443), teknik bypass firewall port non-standar (13731, 8880, 4112, 4010), dan pemindaian lateral terkoordinasi antar cabang.", td_style)
         ],
         [
-            Paragraph("<b>Target</b>", td_style),
+            Paragraph("<b>Target Aset</b>", td_style),
             Paragraph("Aset korporat ORG-0003: Workstation internal 192.168.96.104 di kantor pusat (NORHQ_WAP_RECEPTION) dan switch/gateway cabang Atlanta, Conyers, Loxley, Northbrook.", td_style)
         ],
         [
@@ -274,19 +248,19 @@ def generate_academic_pdf():
             Paragraph("1. Initial Access (T1190) &rarr; 2. Execution (T1059 / Web Shell) &rarr; 3. Discovery (T1046) &rarr; 4. Lateral Movement (T1021) &rarr; 5. Exfiltration (T1041 / T1567).", td_style)
         ]
     ]
-    t_landscape = Table(landscape_table_data, colWidths=[120, 384], repeatRows=1)
+    t_landscape = Table(landscape_table_data, colWidths=[115, 389], repeatRows=1)
     t_landscape.setStyle(TableStyle([
         ('BACKGROUND', (0,0), (-1,0), colors.HexColor("#f1f5f9")),
         ('GRID', (0,0), (-1,-1), 0.5, colors.HexColor("#94a3b8")),
-        ('TOPPADDING', (0,0), (-1,-1), 3.5),
-        ('BOTTOMPADDING', (0,0), (-1,-1), 3.5),
+        ('TOPPADDING', (0,0), (-1,-1), 3),
+        ('BOTTOMPADDING', (0,0), (-1,-1), 3),
         ('LEFTPADDING', (0,0), (-1,-1), 5),
         ('RIGHTPADDING', (0,0), (-1,-1), 5),
     ]))
     story.append(t_landscape)
-    story.append(Spacer(1, 6))
+    story.append(Spacer(1, 8))
 
-    story.append(Paragraph("<b>Diferensiasi Fakta, Asumsi, dan Hipotesis:</b>", subsec_title_style))
+    story.append(Paragraph("<b>Diferensiasi Fakta, Asumsi, dan Hipotesis Investigasi:</b>", subsec_title_style))
     fha_table_data = [
         [Paragraph("Kategori", th_style), Paragraph("Pernyataan Analisis", th_style), Paragraph("Dasar Bukti / Keterbatasan", th_style)],
         [
@@ -309,56 +283,74 @@ def generate_academic_pdf():
     t_fha.setStyle(TableStyle([
         ('BACKGROUND', (0,0), (-1,0), colors.HexColor("#f1f5f9")),
         ('GRID', (0,0), (-1,-1), 0.5, colors.HexColor("#94a3b8")),
-        ('TOPPADDING', (0,0), (-1,-1), 3.5),
-        ('BOTTOMPADDING', (0,0), (-1,-1), 3.5),
+        ('TOPPADDING', (0,0), (-1,-1), 3),
+        ('BOTTOMPADDING', (0,0), (-1,-1), 3),
         ('LEFTPADDING', (0,0), (-1,-1), 5),
         ('RIGHTPADDING', (0,0), (-1,-1), 5),
     ]))
     story.append(t_fha)
-    story.append(Spacer(1, 10))
 
-    # SOAL 2
-    story.append(Paragraph("2. Perumusan Threat Hunting Hypothesis (Bobot: 15 Poin)", sec_title_style))
+    # Selesai Halaman 2
+    story.append(PageBreak())
+
+    # =========================================================================
+    # HALAMAN 3: SOAL 2 (PERUMUSAN THREAT HUNTING HYPOTHESIS)
+    # =========================================================================
+    story.append(Paragraph("<b>2. Perumusan Threat Hunting Hypothesis</b>", sec_title_style))
+    story.append(HRFlowable(width="100%", thickness=0.8, color=colors.HexColor("#334155"), spaceAfter=8))
     
+    soal2_intro = (
+        "Investigasi menerapkan metodologi *Hypothesis-Based Threat Hunting* terukur untuk memverifikasi ada tidaknya "
+        "kompromi aktif pada lingkungan jaringan enterprise. Dirumuskan dua hipotesis utama:"
+    )
+    story.append(Paragraph(soal2_intro, body_style))
+    story.append(Spacer(1, 4))
+
     h1_text = (
-        "<b>Hipotesis 1 (H1: Outbound C2 Beaconing & Web-Based Data Theft):</b><br/>"
+        "<b>Hipotesis 1 (H1: Outbound C2 Beaconing & Exfiltration)</b><br/>"
         "<i>'Terdapat host internal di segmen resepsionis/WAP kantor pusat (NORHQ) yang mengalami kompromi dan secara aktif melakukan komunikasi outbound tidak wajar ke domain C2 berbahaya via protokol HTTPS (port 443) untuk melakukan eksfiltrasi data rahasia.'</i><br/>"
         "• <b>Tujuan Investigasi:</b> Mendeteksi kanal komunikasi C2 aktif, mengidentifikasi proses inisiator pada sistem operasi host, memvalidasi domain IOC, dan memastikan integritas data korporat.<br/>"
-        "• <b>Ruang Lingkup:</b> Host 192.168.96.104 (MAC: 00:A5:54:CB:19:84), Time Window: 2023-06-02 20:00:00 s/d 23:59:59 UTC.<br/>"
+        "• <b>Ruang Lingkup (Scope):</b> Host 192.168.96.104 (MAC: 00:A5:54:CB:19:84) | Time Window: 2023-06-02 20:00:00 s/d 23:59:59 UTC.<br/>"
         "• <b>Data yang Dibutuhkan:</b> Network Flow Logs (Meraki WAP, Cisco ASA), EDR Process & Domain Match Logs (FireEye HX), Cisco Stealthwatch HCI alarms.<br/>"
         "• <b>Langkah Penyelidikan:</b> 1) Filter flow log keluar ke 100.64.43.120:443; 2) Ekstrak nama domain yang memicu FireEye HX Domain Match; 3) Periksa process tree di host; 4) Evaluasi volume transfer byte pada Stealthwatch.<br/>"
         "• <b>Kriteria Validasi:</b> SUPPORTED bila terbukti korelasi domain match EDR + alarm lonjakan HCI + deny log firewall. REJECTED bila koneksi terbukti update software resmi vendor. INCONCLUSIVE bila log EDR tidak tersedia.<br/>"
-        "• <b>Tindakan Lanjutan:</b> Jika Terbukti: Isolasi host dari jaringan, sinkhole domain C2 pada DNS internal, cabut kredensial aktif, lakukan memory dump triage. Jika Terbantahkan: Lakukan tuning signature EDR.<br/>"
-        "• <b>Status:</b> <b>SUPPORTED (Tervalidasi).</b>"
+        "• <b>Tindakan Lanjutan (Action Plan):</b> Jika Terbukti: Isolasi host dari jaringan, sinkhole domain C2 pada DNS internal, cabut kredensial aktif, lakukan memory dump triage. Jika Terbantahkan: Lakukan tuning signature EDR.<br/>"
+        "• <b>Status Validasi:</b> <font color='#15803d'><b>SUPPORTED (Tervalidasi oleh Evidence).</b></font>"
     )
     story.append(Paragraph(h1_text, body_style))
-    story.append(Spacer(1, 4))
+    story.append(Spacer(1, 8))
 
     h2_text = (
-        "<b>Hipotesis 2 (H2: Coordinated Multi-Branch Lateral Reconnaissance):</b><br/>"
+        "<b>Hipotesis 2 (H2: Multi-Branch Lateral Reconnaissance)</b><br/>"
         "<i>'Penyerang memanfaatkan host perantara di jaringan cabang (Loxley/Atlanta/Conyers) untuk melakukan pemindaian horizontal dan probing lateral movement pada port non-standar (13731, 8880, 4112, 4010) secara terkoordinasi.'</i><br/>"
         "• <b>Tujuan Investigasi:</b> Memetakan penyebaran infeksi lateral antar kantor cabang dan mendeteksi aktivitas pemindaian port (service discovery) sebelum eksfiltrasi dilakukan.<br/>"
-        "• <b>Ruang Lingkup:</b> Host cabang 100.64.41.160 (Loxley), 100.64.27.241 (Atlanta), Window: 2023-06-02 18:00:00 s/d 2023-06-03 02:00:00 UTC.<br/>"
+        "• <b>Ruang Lingkup (Scope):</b> Host cabang 100.64.41.160 (Loxley), 100.64.27.241 (Atlanta) | Time Window: 2023-06-02 18:00:00 s/d 2023-06-03 02:00:00 UTC.<br/>"
         "• <b>Data yang Dibutuhkan:</b> Cisco Stealthwatch Flow Logs, Meraki L7 & Firewall deny alarms, Windows Event 5156.<br/>"
         "• <b>Langkah Penyelidikan:</b> 1) Ekstraksi event network flow pada port anomali (13731, 8880, 4112, 4010); 2) Hitung jumlah distinct destination IP per host asal; 3) Evaluasi alarm penimbunan data (data hoarding) Stealthwatch.<br/>"
         "• <b>Kriteria Validasi:</b> SUPPORTED bila terbukti 1 host memindai >10 target dalam waktu singkat tanpa tujuan bisnis sah. REJECTED bila port terbukti software backup terdistribusi resmi. INCONCLUSIVE bila log flow lokal tidak lengkap.<br/>"
-        "• <b>Tindakan Lanjutan:</b> Jika Terbukti: Terapkan microsegmentation antar cabang, blokir port 13731/8880 pada router ACL. Jika Terbantahkan: Daftarkan port aplikasi ke dalam CMDB.<br/>"
-        "• <b>Status:</b> <b>SUPPORTED (Tervalidasi).</b>"
+        "• <b>Tindakan Lanjutan (Action Plan):</b> Jika Terbukti: Terapkan microsegmentation antar cabang, blokir port 13731/8880 pada router ACL. Jika Terbantahkan: Daftarkan port aplikasi ke dalam CMDB.<br/>"
+        "• <b>Status Validasi:</b> <font color='#15803d'><b>SUPPORTED (Tervalidasi oleh Evidence).</b></font>"
     )
     story.append(Paragraph(h2_text, body_style))
-    story.append(Spacer(1, 8))
 
-    # Page break for neat layout before Soal 3
+    # Selesai Halaman 3
     story.append(PageBreak())
 
-    # SOAL 3
-    story.append(Paragraph("3. Telemetry Correlation & Evidence Timeline (Bobot: 20 Poin)", sec_title_style))
-    story.append(Paragraph(
-        "Korelasi dilakukan menggunakan minimal dua sumber data independen yang saling memvalidasi: <b>FireEye Endpoint Security (HX Series)</b> sebagai sumber telemetri EDR dan <b>Cisco Stealthwatch</b> sebagai sumber telemetri NDR, didukung log perimeter <b>Cisco Meraki WAP</b>.",
-        body_style
-    ))
+    # =========================================================================
+    # HALAMAN 4: SOAL 3 (TELEMETRY CORRELATION & EVIDENCE TIMELINE)
+    # =========================================================================
+    story.append(Paragraph("<b>3. Telemetry Correlation & Evidence Timeline</b>", sec_title_style))
+    story.append(HRFlowable(width="100%", thickness=0.8, color=colors.HexColor("#334155"), spaceAfter=8))
+    
+    soal3_intro = (
+        "Identifikasi dan korelasi telemetri dilakukan menggunakan minimal dua sumber data independen yang saling memvalidasi: "
+        "<b>FireEye Endpoint Security (HX Series)</b> sebagai sumber EDR dan <b>Cisco Stealthwatch</b> sebagai sumber NDR, "
+        "didukung sensor perimeter <b>Cisco Meraki WAP (NORHQ_WAP_RECEPTION)</b>. Berikut adalah kronologi kejadian hasil korelasi:"
+    )
+    story.append(Paragraph(soal3_intro, body_style))
+    story.append(Spacer(1, 4))
 
-    # Tabel Timeline yang pas dengan lebar 504 pt dan cell padding rapi
+    # Tabel Timeline (Lebar total: 504 pt)
     timeline_table_data = [
         [
             Paragraph("Timestamp (UTC / Epoch)", th_style),
@@ -372,14 +364,14 @@ def generate_academic_pdf():
             Paragraph("100.64.42.192:42840 &rarr;<br/>100.64.43.121:4010", td_code),
             Paragraph("TCP Flow Deny<br/>(Lateral Probe)", td_style),
             Paragraph("Cisco Stealthwatch<br/>(Northbrook MX67C)", td_style),
-            Paragraph("Pengintaian port anomali 4010 di kantor cabang Northbrook.", td_style)
+            Paragraph("Pengintaian awal port anomali 4010 di kantor cabang Northbrook.", td_style)
         ],
         [
             Paragraph("2023-06-02 20:10:07<br/>1685736607.650", td_style),
             Paragraph("100.64.41.160:54117 &rarr;<br/>100.64.39.193:13731", td_code),
             Paragraph("TCP Flow Deny<br/>(Mass Sweep - 29 leads)", td_style),
             Paragraph("Cisco Stealthwatch<br/>(Loxley MX67C)", td_style),
-            Paragraph("Pemindaian horizontal masif terhadap 15 node pada port 13731 yang memicu alarm HCI.", td_style)
+            Paragraph("Pemindaian horizontal masif terhadap 15 node pada port anomali 13731.", td_style)
         ],
         [
             Paragraph("<b>2023-06-02 21:19:28</b><br/>1685740768.000", td_style),
@@ -410,7 +402,6 @@ def generate_academic_pdf():
             Paragraph("Upaya persistensi backdoor fallback di cabang Conyers melalui port 4112.", td_style)
         ]
     ]
-    # Exact width sum: 85 + 110 + 95 + 95 + 119 = 504 pt
     t_timeline = Table(timeline_table_data, colWidths=[85, 110, 95, 95, 119], repeatRows=1)
     t_timeline.setStyle(TableStyle([
         ('BACKGROUND', (0,0), (-1,0), colors.HexColor("#f1f5f9")),
@@ -421,17 +412,33 @@ def generate_academic_pdf():
         ('RIGHTPADDING', (0,0), (-1,-1), 4),
     ]))
     story.append(t_timeline)
-    story.append(Spacer(1, 10))
+    story.append(Spacer(1, 8))
 
-    # SOAL 4
-    story.append(Paragraph("4. Klasifikasi Temuan (IOC, IOA, TTP) & Pemetaan MITRE ATT&CK (Bobot: 20 Poin)", sec_title_style))
+    soal3_analysis = (
+        "<b>Sintesis Korelasi Forensik Multi-Sumber:</b><br/>"
+        "Korelasi silang temporal membuktikan bahwa pada pukul 21:19:28 UTC terjadi puncak intrusi terkoordinasi. "
+        "Alert EDR <i>FireEye HX Domain Match</i> mengonfirmasi bahwa workstation resepsionis internal 192.168.96.104 "
+        "telah mengeksekusi proses yang mencoba berkomunikasi dengan domain C2 berbahaya. Secara simultan, NDR <i>Cisco Stealthwatch</i> "
+        "merekam lonjakan Concern Index hingga skor 0.859 akibat anomali akumulasi data. Transmisi keluar berhasil digagalkan "
+        "oleh firewall perimeter <i>Cisco Meraki WAP</i> dengan memutus sesi koneksi port 443 (action: deny), sehingga kebocoran data terhenti."
+    )
+    story.append(Paragraph(soal3_analysis, body_style))
+
+    # Selesai Halaman 4
+    story.append(PageBreak())
+
+    # =========================================================================
+    # HALAMAN 5: SOAL 4 (KLASIFIKASI TEMUAN & PEMETAAN MITRE ATT&CK)
+    # =========================================================================
+    story.append(Paragraph("<b>4. Klasifikasi Temuan & Pemetaan MITRE ATT&CK</b>", sec_title_style))
+    story.append(HRFlowable(width="100%", thickness=0.8, color=colors.HexColor("#334155"), spaceAfter=8))
     
     ioc_text = (
         "<b>A. Klasifikasi Temuan Investigasi:</b><br/>"
         "• <b>IOC (Indicators of Compromise):</b> IP External C2: <font face='Courier'>100.64.43.120</font>, "
         "Host Internal Terkompromi: <font face='Courier'>192.168.96.104</font> (MAC: <font face='Courier'>00:A5:54:CB:19:84</font>), "
         "C2 Port: <font face='Courier'>443/TCP</font>, Scanning Probed Ports: <font face='Courier'>13731, 8880, 4112, 4010</font>, "
-        "Rule Signatures: <font face='Courier'>FireEye HX Domain Match</font>, <font face='Courier'>Stealthwatch High Concern Index Alarm</font>.<br/>"
+        "Matched Signatures: <font face='Courier'>FireEye HX Domain Match</font>, <font face='Courier'>Stealthwatch High Concern Index Alarm</font>.<br/>"
         "• <b>IOA (Indicators of Attack):</b> Lonjakan anomali <i>High Concern Index (0.859)</i> pada Cisco Stealthwatch; "
         "Pola koneksi outbound burst ke port 443 dari workstation nirkabel resepsionis di luar jam kerja; "
         "Pemindaian masif multi-node berurutan (15 target internal) dari satu workstation cabang.<br/>"
@@ -442,7 +449,7 @@ def generate_academic_pdf():
     story.append(Paragraph(ioc_text, body_style))
     story.append(Spacer(1, 4))
 
-    story.append(Paragraph("<b>B. Pemetaan MITRE ATT&CK Matrix:</b>", subsec_title_style))
+    story.append(Paragraph("<b>B. Pemetaan Mendalam MITRE ATT&CK Matrix:</b>", subsec_title_style))
     mitre_table_data = [
         [Paragraph("Taktik MITRE ATT&CK", th_style), Paragraph("Teknik & ID", th_style), Paragraph("Alasan Pemetaan & Dasar Bukti Telemetri", th_style), Paragraph("Confidence", th_style)],
         [
@@ -482,19 +489,18 @@ def generate_academic_pdf():
             Paragraph("Medium", td_style)
         ]
     ]
-    # Width sum: 110 + 120 + 214 + 60 = 504 pt
     t_mitre = Table(mitre_table_data, colWidths=[110, 120, 214, 60], repeatRows=1)
     t_mitre.setStyle(TableStyle([
         ('BACKGROUND', (0,0), (-1,0), colors.HexColor("#f1f5f9")),
         ('GRID', (0,0), (-1,-1), 0.5, colors.HexColor("#94a3b8")),
-        ('TOPPADDING', (0,0), (-1,-1), 3),
-        ('BOTTOMPADDING', (0,0), (-1,-1), 3),
+        ('TOPPADDING', (0,0), (-1,-1), 2.5),
+        ('BOTTOMPADDING', (0,0), (-1,-1), 2.5),
         ('LEFTPADDING', (0,0), (-1,-1), 4),
         ('RIGHTPADDING', (0,0), (-1,-1), 4),
         ('ALIGN', (3,1), (3,-1), 'CENTER'),
     ]))
     story.append(t_mitre)
-    story.append(Spacer(1, 4))
+    story.append(Spacer(1, 6))
 
     attribution_text = (
         "<b>C. Batasan Atribusi (Attribution Limitations):</b><br/>"
@@ -503,34 +509,46 @@ def generate_academic_pdf():
         "3. <i>Ketiadaan File Hash:</i> Data network syslog murni tidak menyertakan hash SHA256 proses biner yang berjalan, sehingga atribusi ke unit APT spesifik dibatasi pada tingkat profil taktis (Cybercrime IAB)."
     )
     story.append(Paragraph(attribution_text, body_style))
-    story.append(Spacer(1, 10))
 
-    # SOAL 5
-    story.append(Paragraph("5. Threat Hunting Queries & Detection Engineering (Bobot: 20 Poin)", sec_title_style))
+    # Selesai Halaman 5
+    story.append(PageBreak())
+
+    # =========================================================================
+    # HALAMAN 6: SOAL 5 (THREAT HUNTING QUERIES & DETECTION ENGINEERING)
+    # =========================================================================
+    story.append(Paragraph("<b>5. Threat Hunting Queries & Detection Engineering</b>", sec_title_style))
+    story.append(HRFlowable(width="100%", thickness=0.8, color=colors.HexColor("#334155"), spaceAfter=8))
     
+    soal5_intro = (
+        "Disusun dua kueri deteksi analitis yang dapat dieksekusi pada platform SIEM (Splunk SPL) maupun "
+        "data engine analitik (SQL / Python Pandas) untuk mendeteksi korelasi temporal dan pola pemindaian lateral:"
+    )
+    story.append(Paragraph(soal5_intro, body_style))
+    story.append(Spacer(1, 4))
+
     q1_text = (
         "<b>Query 1: Cross-Source Temporal Join (Platform: Splunk SPL)</b><br/>"
-        "Kueri ini mendeteksi korelasi antara alarm kecocokan domain jahat di EDR dan aksi blokir koneksi keluar port 443 di firewall perimeter dalam jendela waktu 5 menit:<br/>"
+        "Mendeteksi korelasi antara alarm kecocokan domain jahat di EDR dan aksi blokir koneksi keluar port 443 di firewall perimeter dalam jendela waktu 5 menit:<br/>"
         "<font face='Courier' size='7.5'>"
-        "(index=edr product_name=\"FireEye Endpoint Security*\" matched_rules=\"*Domain Match*\") OR "
+        "(index=edr product_name=\"FireEye Endpoint Security*\" matched_rules=\"*Domain Match*\") OR<br/>"
         "(index=network message_type=\"firewall_action\" action IN (\"deny\",\"block\") dst_port=443)<br/>"
         "| eval hunting_ip = coalesce(src_ip, clientip)<br/>"
-        "| stats earliest(_time) as first_seen, latest(_time) as last_seen, "
-        "values(product_name) as sensors, values(matched_rules) as rules, "
-        "values(dst_ip) as target_c2, count by hunting_ip<br/>"
+        "| stats earliest(_time) as first_seen, latest(_time) as last_seen,<br/>"
+        "        values(product_name) as sensors, values(matched_rules) as rules,<br/>"
+        "        values(dst_ip) as target_c2, count by hunting_ip<br/>"
         "| where mvcount(sensors) >= 2 AND count >= 2 AND (last_seen - first_seen) <= 300"
         "</font><br/>"
-        "• <b>Field yang Dicari:</b> src_ip, dst_ip, dst_port=443, product_name, matched_rules, action.<br/>"
-        "• <b>Logika Korelasi:</b> Temporal join 5 menit (300 detik) antar 2 sensor independen (EDR + Firewall) berdasarkan IP inisiator.<br/>"
-        "• <b>Kemungkinan False Positive:</b> Update browser/antivirus yang menghubungi mirror IP baru yang sempat masuk blacklist usang.<br/>"
-        "• <b>Detection Tuning:</b> Whitelist subnet IP CDN resmi (Microsoft/AWS) dan tetapkan syarat minimal 2 sensor berbeda."
+        "• <b>Field yang Dicari:</b> <font face='Courier'>src_ip, dst_ip, dst_port=443, product_name, matched_rules, action, _time</font>.<br/>"
+        "• <b>Logika Korelasi:</b> Temporal join 5 menit (300 detik) antar 2 sensor independen (EDR + Firewall) berdasarkan kesamaan IP inisiator.<br/>"
+        "• <b>Kemungkinan False Positive:</b> Update browser/antivirus resmi yang menghubungi mirror IP baru yang sempat masuk blacklist usang.<br/>"
+        "• <b>Detection Tuning:</b> Whitelist subnet IP CDN resmi (Microsoft/AWS) dan tetapkan syarat mutlak minimal 2 sensor berbeda."
     )
     story.append(Paragraph(q1_text, body_style))
-    story.append(Spacer(1, 4))
+    story.append(Spacer(1, 8))
 
     q2_text = (
         "<b>Query 2: Multi-Branch Lateral Probing & Port Sweeping (Platform: SQL / Python Pandas)</b><br/>"
-        "Kueri ini mendeteksi aktivitas pemindaian horizontal internal pada port anomali non-standar lintas kantor cabang:<br/>"
+        "Mendeteksi aktivitas pemindaian horizontal internal pada port anomali non-standar lintas kantor cabang:<br/>"
         "<font face='Courier' size='7.5'>"
         "SELECT src_ip, stream_name, COUNT(DISTINCT dst_ip) AS distinct_targets, COUNT(*) AS probe_count<br/>"
         "FROM network_signals<br/>"
@@ -538,17 +556,35 @@ def generate_academic_pdf():
         "GROUP BY src_ip, stream_name<br/>"
         "HAVING COUNT(DISTINCT dst_ip) >= 5;"
         "</font><br/>"
-        "• <b>Field yang Dicari:</b> dst_port IN (13731, 8880, 4112, 4010), dst_ip (distinct), src_ip, stream_name, action.<br/>"
+        "• <b>Field yang Dicari:</b> <font face='Courier'>dst_port IN (13731, 8880, 4112, 4010), dst_ip (distinct), src_ip, stream_name, action</font>.<br/>"
         "• <b>Logika Korelasi:</b> Agregasi penolakan koneksi pada port anomali dengan ambang batas (threshold) minimal 5 host target berbeda.<br/>"
-        "• <b>Kemungkinan False Positive:</b> Pemindai kerentanan internal resmi (Nessus/Qualys) atau daemon backup terdistribusi.<br/>"
+        "• <b>Kemungkinan False Positive:</b> Pemindai kerentanan internal resmi (Nessus/Qualys) atau daemon backup terdistribusi internal.<br/>"
         "• <b>Detection Tuning:</b> Daftarkan IP scanner ke whitelist CMDB dan tingkatkan severity jika pemindaian terjadi di luar jam kerja."
     )
     story.append(Paragraph(q2_text, body_style))
-    story.append(Spacer(1, 10))
 
-    # SOAL 6
-    story.append(Paragraph("6. Rekomendasi Deteksi, Prioritas Tindak Lanjut & Bukti Demo (Bobot: 10 Poin)", sec_title_style))
+    # Selesai Halaman 6
+    story.append(PageBreak())
 
+    # =========================================================================
+    # HALAMAN 7: SOAL 6 (LAPORAN SINGKAT, REKOMENDASI DETEKSI & BUKTI DEMO)
+    # =========================================================================
+    story.append(Paragraph("<b>6. Laporan Threat Hunting Singkat & Rekomendasi Tindak Lanjut</b>", sec_title_style))
+    story.append(HRFlowable(width="100%", thickness=0.8, color=colors.HexColor("#334155"), spaceAfter=8))
+
+    exec_summary_short = (
+        "<b>A. Ringkasan Eksekutif & Temuan Utama:</b><br/>"
+        "• <b>Executive Summary:</b> Perburuan ancaman pada telemetri tenant ORG-0003 mengungkap kampanye terkoordinasi "
+        "<b>Data Theft (Partisi 233678)</b> dengan insiden kunci <b>Defiant Pike 233678 (Skor 0.859)</b>. Workstation resepsionis "
+        "nirkabel 192.168.96.104 terkompromi dan mengeksekusi C2 beaconing keluar ke 100.64.43.120:443.<br/>"
+        "• <b>Metodologi:</b> Hypothesis-Based Threat Hunting memadukan EDR (FireEye HX), NDR (Cisco Stealthwatch), dan Firewall (Cisco Meraki WAP).<br/>"
+        "• <b>Tingkat Keyakinan (Confidence Level):</b> <b>HIGH</b> untuk keterjadian infeksi host dan upaya C2; <b>MEDIUM</b> untuk atribusi pelaku.<br/>"
+        "• <b>Dampak Potensial:</b> Ancaman eksfiltrasi data sensitif korporat dan kompromi lateral ke seluruh segmen cabang enterprise."
+    )
+    story.append(Paragraph(exec_summary_short, body_style))
+    story.append(Spacer(1, 4))
+
+    story.append(Paragraph("<b>B. Matriks Prioritas Tindak Lanjut (Action Plan):</b>", subsec_title_style))
     rec_table_data = [
         [Paragraph("Tingkat Prioritas", th_style), Paragraph("Tindakan Remediasi & Rekomendasi Deteksi", th_style), Paragraph("Penanggung Jawab & Target Waktu", th_style)],
         [
@@ -567,26 +603,25 @@ def generate_academic_pdf():
             Paragraph("Tim Security Architect<br/>Target: 1 s/d 2 Minggu", td_style)
         ]
     ]
-    # Width sum: 90 + 304 + 110 = 504 pt
     t_rec = Table(rec_table_data, colWidths=[90, 304, 110], repeatRows=1)
     t_rec.setStyle(TableStyle([
         ('BACKGROUND', (0,0), (-1,0), colors.HexColor("#f1f5f9")),
         ('GRID', (0,0), (-1,-1), 0.5, colors.HexColor("#94a3b8")),
-        ('TOPPADDING', (0,0), (-1,-1), 3.5),
-        ('BOTTOMPADDING', (0,0), (-1,-1), 3.5),
+        ('TOPPADDING', (0,0), (-1,-1), 3),
+        ('BOTTOMPADDING', (0,0), (-1,-1), 3),
         ('LEFTPADDING', (0,0), (-1,-1), 4),
         ('RIGHTPADDING', (0,0), (-1,-1), 4),
     ]))
     story.append(t_rec)
-    story.append(Spacer(1, 8))
+    story.append(Spacer(1, 6))
 
     demo_text = (
-        "<b>Tautan Demo & Bukti Reproduktibilitas Analisis:</b><br/>"
+        "<b>C. Tautan Demo & Bukti Reproduktibilitas Analisis:</b><br/>"
         "• <b>Google Colab Demo:</b> <a href='https://colab.research.google.com/drive/1ys4l468E6lEuRepVZIOlKEUzR-kNK1LJ'>https://colab.research.google.com/drive/1ys4l468E6lEuRepVZIOlKEUzR-kNK1LJ</a><br/>"
         "• <b>Repository GitHub:</b> <a href='https://github.com/Dzul-Ikram/UTS-ThreatHunting'>https://github.com/Dzul-Ikram/UTS-ThreatHunting</a><br/>"
         "• <b>Live Interactive Dashboard (GitHub Pages):</b> <a href='https://dzul-ikram.github.io/UTS-ThreatHunting/'>https://dzul-ikram.github.io/UTS-ThreatHunting/</a><br/>"
         "• <b>Jupyter Notebook Reproduksi:</b> <font face='Courier'>Threat_Hunting_Investigation.ipynb</font> (tersedia di repository untuk verifikasi kueri dan ekstraksi data secara langsung).<br/>"
-        "<i>Dashboard interaktif menyajikan visualisasi timeline forensik, distribusi telemetri, matriks MITRE ATT&CK, dan kueri analitik.</i>"
+        "<i>Seluruh proses pencarian, korelasi multi-sumber, penyusunan timeline, dan dasar pengambilan keputusan analisis dapat diakses dan diverifikasi secara langsung melalui tautan di atas.</i>"
     )
     story.append(Paragraph(demo_text, body_style))
 

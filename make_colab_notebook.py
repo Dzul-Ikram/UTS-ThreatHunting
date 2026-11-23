@@ -23,12 +23,12 @@ notebook_cells = [
             "Notebook ini menyajikan implementasi **Hypothesis-Based Threat Hunting** berbasis data telemetri riil Security Operations Center (SOC) enterprise dari dataset **WitFoo Precinct 6** (2.250.185 sinyal, 51.371 insiden). Investigasi difokuskan pada kampanye serangan terorganisir **Data Theft (Partisi 233678)** pada tenant **ORG-0003**, dengan insiden kunci **`25512200-01d5-11ee-8c41-374f8f3a6a1c` (Defiant Pike 233678)** yang memicu skor kecurigaan tertinggi (**0.859 / 85.9%**).\n",
             "\n",
             "Investigasi ini disusun untuk memenuhi secara komprehensif seluruh rubrik penilaian ujian (Total: 100 Poin):\n",
-            "1. **Analisis Landscape & Threat Actor (Bobot: 15 Poin)**\n",
-            "2. **Hipotesis dan Metodologi Hunting (Bobot: 15 Poin)**\n",
-            "3. **Telemetry Correlation & Evidence Timeline (Bobot: 20 Poin)**\n",
-            "4. **Klasifikasi IOC, IOA, TTP & Pemetaan MITRE ATT&CK (Bobot: 20 Poin)**\n",
-            "5. **Hunting Query dan Detection Engineering (Bobot: 20 Poin)**\n",
-            "6. **Hunting Report dan Link Demo (Bobot: 10 Poin)**"
+            "1. **Analisis Landscape & Threat Actor**\n",
+            "2. **Hipotesis dan Metodologi Hunting**\n",
+            "3. **Telemetry Correlation & Evidence Timeline**\n",
+            "4. **Klasifikasi IOC, IOA, TTP & Pemetaan MITRE ATT&CK**\n",
+            "5. **Hunting Query dan Detection Engineering**\n",
+            "6. **Hunting Report dan Link Demo**"
         ]
     },
     {
@@ -92,7 +92,7 @@ notebook_cells = [
         "cell_type": "markdown",
         "metadata": {},
         "source": [
-            "## 1. Analisis Landscape & Attack Lifecycle (Soal 1 - Bobot: 15 Poin)\n",
+            "## 1. Analisis Landscape & Attack Lifecycle (Soal 1)\n",
             "### 1.1 Profiling Threat Actor, Motivasi, Kemampuan, dan Target Aset\n",
             "Berdasarkan analisis telemetri tenant **ORG-0003**, teridentifikasi aktivitas kelompok kejahatan siber yang menyasar kompromi perimeter nirkabel dan workstation resepsionis untuk upaya eksfiltrasi data korporat."
         ]
@@ -163,7 +163,7 @@ notebook_cells = [
         "cell_type": "markdown",
         "metadata": {},
         "source": [
-            "## 2. Perumusan Threat Hunting Hypothesis (Soal 2 - Bobot: 15 Poin)\n",
+            "## 2. Perumusan Threat Hunting Hypothesis (Soal 2)\n",
             "Perumusan dua hipotesis berbobot tinggi lengkap dengan tujuan investigasi, ruang lingkup host/user/time window, data yang dibutuhkan, langkah penyelidikan, kriteria validasi, dan tindakan lanjutan."
         ]
     },
@@ -214,7 +214,7 @@ notebook_cells = [
         "cell_type": "markdown",
         "metadata": {},
         "source": [
-            "## 3. Telemetry Correlation & Evidence Timeline (Soal 3 - Bobot: 20 Poin)\n",
+            "## 3. Telemetry Correlation & Evidence Timeline (Soal 3)\n",
             "### 3.1 Identifikasi Sumber Telemetri Forensik\n",
             "Korelasi dilakukan menggunakan minimal dua sumber data independen yang saling melengkapi:\n",
             "1. **Endpoint Detection and Response (EDR):** `FireEye Endpoint Security (HX Series)` — mendeteksi kecocokan domain jahat (`FireEye HX Domain Match`) pada sistem operasi host.\n",
@@ -286,7 +286,7 @@ notebook_cells = [
         "cell_type": "markdown",
         "metadata": {},
         "source": [
-            "## 4. Klasifikasi IOC, IOA, TTP & Pemetaan MITRE ATT&CK (Soal 4 - Bobot: 20 Poin)\n",
+            "## 4. Klasifikasi IOC, IOA, TTP & Pemetaan MITRE ATT&CK (Soal 4)\n",
             "### 4.1 Klasifikasi Temuan: IOC, IOA, dan TTP\n",
             "Berikut adalah klasifikasi forensik komprehensif atas temuan investigasi:"
         ]
@@ -400,7 +400,7 @@ notebook_cells = [
         "cell_type": "markdown",
         "metadata": {},
         "source": [
-            "## 5. Threat Hunting Queries & Detection Engineering (Soal 5 - Bobot: 20 Poin)\n",
+            "## 5. Threat Hunting Queries & Detection Engineering (Soal 5)\n",
             "Menyajikan minimal dua hunting query menggunakan sintaks platform SIEM standar (Splunk SPL / EQL) serta implementasi kueri reproduksi berbasis Python/SQL, lengkap dengan analisis False Positive dan rekomendasi tuning deteksi.\n",
             "\n",
             "### 5.1 Kueri 1: Cross-Source Temporal Join (EDR Alert + Firewall Deny Outbound)\n",
@@ -516,7 +516,7 @@ notebook_cells = [
         "cell_type": "markdown",
         "metadata": {},
         "source": [
-            "## 6. Laporan Singkat, Rekomendasi Deteksi & Bukti Demo (Soal 6 - Bobot: 10 Poin)\n",
+            "## 6. Laporan Singkat, Rekomendasi Deteksi & Bukti Demo (Soal 6)\n",
             "### 6.1 Executive Summary & Temuan Utama\n",
             "- **Executive Summary:** Berdasarkan perburuan ancaman (*threat hunting*) pada telemetri tenant **ORG-0003**, ditemukan kampanye terkoordinasi **Data Theft (Partisi 233678)** yang memanfaatkan workstation resepsionis kantor pusat (`192.168.96.104`) sebagai basis kompromi awal untuk upaya transmisi C2 keluar dan pergerakan lateral ke kantor-kantor cabang (Atlanta, Conyers, Loxley, Northbrook).\n",
             "- **Metodologi:** Investigasi menerapkan kerangka kerja *Hypothesis-Based Threat Hunting* yang dikombinasikan dengan korelasi multi-sensor (*Diamond Model for Intrusion Analysis* dan *MITRE ATT&CK Framework*).\n",

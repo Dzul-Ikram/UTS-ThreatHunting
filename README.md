@@ -26,7 +26,7 @@ Insiden utama berpusat pada **`25512200-01d5-11ee-8c41-374f8f3a6a1c` (Defiant Pi
 
 ## 🎯 Jawaban Lengkap Soal Ujian (Soal 1 s/d 6)
 
-### 1. Analisis Landscape & Attack Lifecycle (Bobot: 15 Poin)
+### 1. Analisis Landscape & Attack Lifecycle
 - **Threat Actor:** *Financially Motivated Cybercrime Group / Initial Access Broker (IAB)*. Sindikat kejahatan siber terorganisir yang berfokus pada pencurian data korporat dan kompromi infrastruktur web.
 - **Motivasi:** Keuntungan finansial melalui pencurian data sensitif (*Data Theft*) serta pemanfaatan bandwidth dan server korban untuk monetisasi (SEO spam redirect).
 - **Kemampuan (Capability):** *Advanced/Capable*. Menguasai teknik komunikasi C2 terenkripsi (HTTPS port 443), penghindaran filter perimeter menggunakan port non-standar (13731, 8880), serta pemindaian horizontal terkoordinasi antar cabang.
@@ -42,7 +42,7 @@ Insiden utama berpusat pada **`25512200-01d5-11ee-8c41-374f8f3a6a1c` (Defiant Pi
 
 ---
 
-### 2. Perumusan Threat Hunting Hypothesis (Bobot: 15 Poin)
+### 2. Perumusan Threat Hunting Hypothesis
 
 #### Hipotesis 1 (H1: Outbound C2 Beaconing & Web-Based Data Theft)
 - **Pernyataan:** *"Terdapat host internal di segmen resepsionis/WAP kantor pusat (NORHQ) yang mengalami kompromi dan secara aktif melakukan komunikasi outbound tidak wajar ke domain C2 berbahaya via protokol HTTPS (port 443) untuk melakukan eksfiltrasi data rahasia."*
@@ -80,7 +80,7 @@ Insiden utama berpusat pada **`25512200-01d5-11ee-8c41-374f8f3a6a1c` (Defiant Pi
 
 ---
 
-### 3. Telemetry Correlation & Evidence Timeline (Bobot: 20 Poin)
+### 3. Telemetry Correlation & Evidence Timeline
 Investigasi menggabungkan **EDR (FireEye Endpoint Security HX)** dan **NDR (Cisco Stealthwatch)**, didukung oleh **Perimeter Log (Cisco Meraki WAP)**:
 
 | Timestamp (UTC / Epoch) | Source & Destination | Aktivitas & Protokol | Sensor / Sumber Event | Relevansi Forensik & Dampak |
@@ -94,7 +94,7 @@ Investigasi menggabungkan **EDR (FireEye Endpoint Security HX)** dan **NDR (Cisc
 
 ---
 
-### 4. Klasifikasi IOC/IOA/TTP & Pemetaan MITRE ATT&CK (Bobot: 20 Poin)
+### 4. Klasifikasi IOC/IOA/TTP & Pemetaan MITRE ATT&CK
 
 - **IOC (Indicators of Compromise):**
   - External C2 IP: `100.64.43.120`
@@ -128,7 +128,7 @@ Investigasi menggabungkan **EDR (FireEye Endpoint Security HX)** dan **NDR (Cisc
 
 ---
 
-### 5. Threat Hunting Queries & Detection Engineering (Bobot: 20 Poin)
+### 5. Threat Hunting Queries & Detection Engineering
 
 #### Query 1: Cross-Source Temporal Join (Splunk SPL)
 ```spl
@@ -170,7 +170,7 @@ HAVING COUNT(DISTINCT dst_ip) >= 5;
 
 ---
 
-### 6. Rekomendasi Deteksi, Prioritas Tindak Lanjut & Demo (Bobot: 10 Poin)
+### 6. Rekomendasi Deteksi, Prioritas Tindak Lanjut & Demo
 
 | Prioritas Tindak Lanjut | Tindakan Remediasi & Rekomendasi Deteksi | Penanggung Jawab & Target Waktu |
 | :--- | :--- | :--- |
